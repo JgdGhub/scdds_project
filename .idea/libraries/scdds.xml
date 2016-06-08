@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="scdds">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/scdds/out/artifacts/scdds_1_0_0_jar/scdds.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
