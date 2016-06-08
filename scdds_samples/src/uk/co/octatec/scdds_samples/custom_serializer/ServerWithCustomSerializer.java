@@ -28,6 +28,9 @@ import java.util.List;
  */
 public class ServerWithCustomSerializer extends Server {
 
+    /* REMEMBER TO START THE RegistryServer FIRST (on port 9999 or some other port of your choosing */
+    /* this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar */
+
     private final static Logger log = LoggerFactory.getLogger(Server.class);
 
     protected void start(List<InetSocketAddress> registries) throws InterruptedException {

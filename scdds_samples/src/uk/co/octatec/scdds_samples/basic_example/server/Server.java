@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class Server {
 
+    /* REMEMBER TO START THE RegistryServer FIRST (on port 9999 or some other port of your choosing */
+    /* this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar */
+
     private final static Logger log = LoggerFactory.getLogger(Server.class);
 
     protected static final String CACHE_NAME = "basic-data";
@@ -29,7 +32,7 @@ public class Server {
         // first, get the location of the registry from the command line
 
         String registryHost = "localhost";
-        int registryPort = 9999;
+        int registryPort = 9999; // default registry port for these samples
         for( String arg : args) {
             if( arg.startsWith("-rhost:")) {
                 registryHost = arg.substring(7);
@@ -40,7 +43,7 @@ public class Server {
         }
 
         // NOTE: a registry must be running at registryHost:registryPort on the network
-        // this can be done using the "Registry" configuration from the InteliJ Menu-bar, alternatively...
+        // this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar, alternatively...
         //
         // to run a registry, do this...
         //   java -cp scdds-1.0.0.jar:slf4j-api-1.7.21.jar:slf4j-simple-1.7.21.jar  uk.co.octatec.scdds.net.registry.RegistryServer <port-number>

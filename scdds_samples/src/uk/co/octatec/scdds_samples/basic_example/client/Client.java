@@ -28,6 +28,9 @@ import java.util.List;
  */
 public class Client {
 
+    /* REMEMBER TO START THE RegistryServer FIRST (on port 9999 or some other port of your choosing */
+    /* this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar */
+
     private final static Logger log = LoggerFactory.getLogger(Client.class);
 
     private static final String CACHE_NAME = "basic-data";
@@ -39,7 +42,7 @@ public class Client {
         // get the location of the registry from the command line
 
         String registryHost = "localhost";
-        int registryPort = 9999;
+        int registryPort = 9999; // default registry port for these samples
         for( String arg : args) {
             if( arg.startsWith("-rhost:")) {
                 registryHost = arg.substring(7);
