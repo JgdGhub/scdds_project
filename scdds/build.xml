@@ -1,0 +1,76 @@
+<project name="scdds" default="makejar" basedir=".">
+
+    <description>
+        build the SC/DDS jar
+        also build and run the tests
+        (uses the same directories as used by intelliJ)
+        [ant-version 1.9.7]
+    </description>
+
+    <property name="version" value="1_0_0" />
+
+    <property name="src" location="src"/>
+    <property name="test_src" location="test"/>
+    <property name="build" location="./out/production/scdds"/>
+    <property name="test_build" location="./out/test/scdds"/>
+    <property name="jar_dir" location="./out/artifacts/scdds_${version}_jar"/>
+    <property name="test_reports" location="./out/test_reports" />
+
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${test_build}"/>
+        <mkdir dir="${jar_dir}"/>
+        <mkdir dir="${test_reports}"/>
+    </target>
+
+    <path id="class_path">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="test_build_class_path">
+        <path refid="class_path" />
+        <dirset dir="${build}">
+            <include name="**"/>
+        </dirset>
+    </path>
+
+    <path id="test_run_class_path">
+        <path refid="test_build_class_path" />
+        <dirset dir="${test_build}">
+            <include name="**"/>
+        </dirset>
+    </path>
+
+    <target name="compile" depends="init" description="compile the source">
+        <javac srcdir="${src}" destdir="${build}"  classpathref="class_path" />
+    </target>
+
+    <target name="compile_tests" depends="compile" description="compile the tests">
+        <javac srcdir="${test_src}" destdir="${test_build}"  classpathref="test_build_class_path" />
+    </target>
+
+    <target name="makejar" depends="compile" description="build the jar">
+        <jar destfile = "${jar_dir}/scdds-${version}.jar" basedir = "${build}" includes = "**"/>
+    </target>
+
+    <target name="runtests" depends="compile_tests"  description="run the tests">
+
+        <junit printsummary="yes" haltonfailure="yes" >
+
+            <classpath refid="test_run_class_path" />
+
+            <formatter type="plain"/>
+
+            <batchtest fork="yes" todir="${test_reports}">
+                <fileset dir="${test_src}">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+
+        </junit>
+
+    </target>
+</project>
