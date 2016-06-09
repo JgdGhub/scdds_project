@@ -57,7 +57,7 @@ public class ResgistryTest {
         log.info("random numbers [{}]", check);
         Assert.assertEquals("random number check", check.size(), 4); // at least all the numbers are different
         for(int i : check ) {
-            Assert.assertTrue("random number in range", i > 0 && i < 1000 );
+            Assert.assertTrue("random number in range", i >= 0 && i <= 1000 );
         }
     }
 

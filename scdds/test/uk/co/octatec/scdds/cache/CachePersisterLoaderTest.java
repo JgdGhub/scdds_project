@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.cache.persistence.*;
+import uk.co.octatec.scdds.utilities.DirCheck;
 import uk.co.octatec.scdds.utilities.SimpleData;
 import uk.co.octatec.scdds.odb.ObjectDataStoreTest;
 
@@ -46,6 +47,7 @@ public class CachePersisterLoaderTest {
     public static void setup() {
 
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        DirCheck.check("test");
     }
 
     @Test

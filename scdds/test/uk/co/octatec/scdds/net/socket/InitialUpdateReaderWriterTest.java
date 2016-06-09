@@ -22,6 +22,7 @@ import uk.co.octatec.scdds.net.serialize.DefaultSerializer;
 import uk.co.octatec.scdds.net.serialize.Serializer;
 import uk.co.octatec.scdds.net.serialize.SerializerUtils;
 import uk.co.octatec.scdds.utilities.DataWithDate;
+import uk.co.octatec.scdds.utilities.DirCheck;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -139,6 +140,7 @@ public class InitialUpdateReaderWriterTest {
     @BeforeClass
     public static void setup() {
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        DirCheck.check("test");
     }
 
     @Test

@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.utilities.DirCheck;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -34,6 +35,7 @@ public class ObjectDataStoreTest {
     public static void setup() {
 
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        DirCheck.check("test");
     }
 
     static class Value implements Serializable {
