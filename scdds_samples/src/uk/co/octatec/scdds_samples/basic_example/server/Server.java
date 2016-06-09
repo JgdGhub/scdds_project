@@ -54,7 +54,7 @@ public class Server {
         // the client and server should be given the full list of all registries available
 
         ArrayList<InetSocketAddress> registries = new ArrayList<>();
-        registries.add(new  InetSocketAddress(registryHost, registryPort));
+        registries.add(new InetSocketAddress(registryHost, registryPort));
 
         Server server = new Server();
         server.start(registries);
