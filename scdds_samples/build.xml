@@ -1,0 +1,34 @@
+<project name="scdds_samples" default="compile" basedir=".">
+
+
+    <description>
+        build the SC/DDS samples
+        (uses the same directories as used by intelliJ)
+        [ant-version 1.9.7]
+    </description>
+
+
+    <property name="version" value="1_0_0" />
+
+    <property name="src" location="src"/>
+    <property name="build" location="./out/production/scdds_samples"/>
+    <property name="scdds_jar" location="../scdds/out/artifacts/scdds_${version}_jar/scdds-${version}.jar"/>
+
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+    </target>
+
+    <path id="class_path">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${scdds_jar}" />
+    </path>
+
+    <target name="compile" depends="init" description="compile the source">
+        <javac srcdir="${src}" destdir="${build}"  classpathref="class_path" />
+    </target>
+
+
+</project>
