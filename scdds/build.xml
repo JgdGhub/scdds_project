@@ -18,6 +18,7 @@
 
 
     <target name="init">
+        <echo message="create directories if not present"/>
         <mkdir dir="${build}"/>
         <mkdir dir="${test_build}"/>
         <mkdir dir="${jar_dir}"/>
@@ -44,20 +45,29 @@
         </dirset>
     </path>
 
+    <target name="clean" description="clean up">
+        <echo message="delete build directories"/>
+        <delete dir="${build}"/>
+        <delete dir="${test_build}"/>
+    </target>
+
     <target name="compile" depends="init" description="compile the source">
+        <echo message="compile source"/>
         <javac srcdir="${src}" destdir="${build}"  classpathref="class_path" />
     </target>
 
     <target name="compile_tests" depends="compile" description="compile the tests">
+        <echo message="compile tests"/>
         <javac srcdir="${test_src}" destdir="${test_build}"  classpathref="test_build_class_path" />
     </target>
 
     <target name="makejar" depends="compile" description="build the jar">
+        <echo message="build the jar"/>
         <jar destfile = "${jar_dir}/scdds-${version}.jar" basedir = "${build}" includes = "**"/>
     </target>
 
     <target name="runtests" depends="compile_tests"  description="run the tests">
-
+        <echo message="run the tests"/>
         <junit printsummary="yes" haltonfailure="yes" >
 
             <classpath refid="test_run_class_path" />
