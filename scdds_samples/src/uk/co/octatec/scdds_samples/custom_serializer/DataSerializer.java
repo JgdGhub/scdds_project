@@ -49,7 +49,7 @@ public class DataSerializer implements Serializer<String,Data> {
 
         byte[] buff = new byte[buffSize];
 
-        int pos = reserveHeaderSpace;
+        int pos = reserveHeaderSpace; // the reserved header space is for use by the system
 
         SerializerUtils.writeIntToBytes(VERSION, buff, pos);
         pos += sizeOfVersionFlag;

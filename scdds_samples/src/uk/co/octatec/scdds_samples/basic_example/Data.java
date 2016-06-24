@@ -13,12 +13,14 @@ package uk.co.octatec.scdds_samples.basic_example;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
+
 import java.io.Serializable;
 
 /**
  * Created by Jeromy Drake on 06/06/2016.
  */
-public class Data implements Serializable /*needed for the default serializer*/ {
+public class Data implements Serializable, ImmutableEntry /*needed for the default serializer*/ {
 
     static final long serialVersionUID = 1; // do this if you are using default serialization
 

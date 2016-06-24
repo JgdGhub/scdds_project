@@ -19,6 +19,10 @@ import uk.co.octatec.scdds.cache.CacheListener;
 import uk.co.octatec.scdds.cache.subscribe.ImmutableCache;
 import uk.co.octatec.scdds_samples.basic_example.Data;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 /**
  * Created by Jeromy Drake on 06/06/2016.
  */
@@ -29,9 +33,17 @@ public class DataListener implements CacheListener<String, Data>{
     private double startTime;
     private long loopStartTime;
     private double updateCount;
-    private long prevTiemstamp;
 
+    private final boolean errorOnOdId;
 
+    private Map<String, Long> prevTimestamps = new HashMap<>();
+
+    public DataListener() {
+        this.errorOnOdId = false;
+    }
+    public DataListener(boolean errorOnOdId) {
+        this.errorOnOdId = errorOnOdId;
+    }
 
     @Override
     public void onInitialUpdate(ImmutableCache<String, Data> immutableCache) {
@@ -40,22 +52,26 @@ public class DataListener implements CacheListener<String, Data>{
     }
 
     @Override
-    public void onUpdate(String s, Data data) {
+    public void onUpdate(String key, Data data) {
 
         long now = System.currentTimeMillis();
         long timestamp = data.getMilliseconds();
         long latency = now - timestamp;
 
-        if( prevTiemstamp == 0 ) {
-            prevTiemstamp = data.getMilliseconds();
+        Long  prevTiemstamp =  prevTimestamps.get(key);
+        if( prevTiemstamp != null ) {
+            if (timestamp < prevTiemstamp) {
+                // this can't happen
+                log.error("\r\n\r\n\r\n********** OUT OF ORDER MESSAGE *********************\r\n\r\n\r\n");
+                System.exit(1);
+            }
         }
-        else if( timestamp < prevTiemstamp ) {
-            // this can't happen
-            log.error("\r\n\r\n\r\n********** OUT OF ORDER MESSAGE *********************\r\n\r\n\r\n") ;
-            System.exit(1);
+        prevTimestamps.put(key, timestamp);
+        log.info("onUpdate key=[{}] data=[{}] latency={} ms (errorOnOdId={})", data, latency, errorOnOdId);
+        if( errorOnOdId && (data.getId()%2) != 0 ) {
+            // output an error message if we get an ODD-ID, the expectation is that the client is using a filter
+            log.error("\r\n**** ERROR FROM FILTER, GOT ODD-ID IN CLIENT {} ****\r\n", data.getId());
         }
-        prevTiemstamp = timestamp;
-        log.info("onUpdate [{}] latency={} ms", data, latency);
     }
 
     @Override

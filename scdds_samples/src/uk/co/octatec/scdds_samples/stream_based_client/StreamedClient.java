@@ -1,4 +1,4 @@
-package uk.co.octatec.scdds_samples.basic_example.client;
+package uk.co.octatec.scdds_samples.stream_based_client;
 /*
   SC/DDS - simple cached data distribution service
 
@@ -13,33 +13,33 @@ package uk.co.octatec.scdds_samples.basic_example.client;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.cache.SubscriptionCacheBuilder;
+import uk.co.octatec.scdds.cache.SubscriptionStreamBuilder;
+import uk.co.octatec.scdds.cache.publish.CacheFilter;
 import uk.co.octatec.scdds.cache.subscribe.ImmutableCache;
 import uk.co.octatec.scdds_samples.RegistryCommandLine;
 import uk.co.octatec.scdds_samples.basic_example.Data;
-import uk.co.octatec.scdds_samples.basic_example.server.Server;
+import uk.co.octatec.scdds_samples.basic_example.client.Client;
+import uk.co.octatec.scdds_samples.basic_example.client.DataListener;
+import uk.co.octatec.scdds_samples.filtered_client.OddFilter;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Jeromy Drake on 06/06/2016.
+ * Created by Jeromy Drake on 21/06/2016.
  */
-public class Client {
+public class StreamedClient extends Client {
 
-    /* REMEMBER TO START THE RegistryServer FIRST (on port 9999 or some other port of your choosing */
-    /* this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar */
-
-    private final static Logger log = LoggerFactory.getLogger(Client.class);
-
-    protected static final String CACHE_NAME = "basic-data";
+    private final static Logger log = LoggerFactory.getLogger(StreamedClient.class);
 
     public static void main(String[] args) throws InterruptedException{
 
-        log.info("### CLIENT STARTING args=[{}]", args);
+        log.info("### STREAM BASED CLIENT STARTINGG args=[{}]", args);
 
         // NOTE: a registry must be running at registryHost:registryPort on the network
         // to run a registry, dp thid...
@@ -47,24 +47,25 @@ public class Client {
 
         ArrayList<InetSocketAddress> registries = RegistryCommandLine.init(args);
 
-        Client client = new Client();
+        Client client = new StreamedClient();
         client.start(registries);
     }
 
-
     public void start(List<InetSocketAddress> registries) throws InterruptedException{
 
-        log.info("### SUBSCRIBE TO THE CACHE");
+        log.info("### SUBSCRIBE TO THE CACHE USING A STREAM BASED CLIENT");
 
         // subscribe to a cache
-        SubscriptionCacheBuilder<String, Data> subscriber = new SubscriptionCacheBuilder<>(registries);
-        ImmutableCache<String,Data> cache = subscriber.subscribe(CACHE_NAME); // the cache name must match the name ine the Server
 
-        // add a listener - the listener will get an initial update and a stream of updates
+        // the 'streamed client' does not get a local copy of the cache, instead it it just gets
+        // a stream of updates that go to the listener - thats the only differennce, the memory footprint
+        // of the client will be less as it doesn't have a local copy of the cache, but it won't be able
+        // to query the cache for a particular value
 
-        log.info("### LISTENING FOR DATA");
-
+        SubscriptionStreamBuilder<String, Data> subscriber = new SubscriptionStreamBuilder<>(registries);
         DataListener dataListener = new DataListener();
-        cache.addListener(dataListener);
+        subscriber.subscribe(CACHE_NAME, dataListener); // the cache name must match the name ine the Server
+
+        // the listener will now get updates as soon as they are available
     }
 }

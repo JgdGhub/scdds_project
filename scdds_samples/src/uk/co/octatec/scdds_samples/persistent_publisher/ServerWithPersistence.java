@@ -1,4 +1,4 @@
-package uk.co.octatec.scdds_samples.custom_serializer;
+package uk.co.octatec.scdds_samples.persistent_publisher;
 /*
   SC/DDS - simple cached data distribution service
 
@@ -17,6 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.cache.Cache;
 import uk.co.octatec.scdds.cache.PublishingCacheBuilder;
+import uk.co.octatec.scdds.cache.persistence.CacheLoaderPersisterFactory;
+import uk.co.octatec.scdds.cache.persistence.KeyBasedCacheLoaderPersisterFactory;
+import uk.co.octatec.scdds.cache.persistence.ObjectStoreCacheLoaderPersisterFactory;
 import uk.co.octatec.scdds_samples.RegistryCommandLine;
 import uk.co.octatec.scdds_samples.basic_example.Data;
 import uk.co.octatec.scdds_samples.basic_example.server.Server;
@@ -26,18 +29,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Jeromy Drake on 07/06/2016.
+ * Created by Jeromy Drake on 20/06/2016.
  */
-public class ServerWithCustomSerializer extends Server {
+public class ServerWithPersistence extends Server {
 
-    /* REMEMBER TO START THE RegistryServer FIRST (on port 9999 or some other port of your choosing */
-    /* this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar */
-
-    private final static Logger log = LoggerFactory.getLogger(Server.class);
+    private final static Logger log = LoggerFactory.getLogger(ServerWithPersistence.class);
 
     public static void main(String[] args) throws InterruptedException{
 
-        log.info("### SERVER WITH CUSTOM SERIALIZER STARTING args=[{}] [{}]", args, information);
+        log.info("### SERVER STARTING WITH PERSISTENCE args=[{}] [{}]", args, information);
 
         // first, get the location of the registry from the command line
 
@@ -54,26 +54,30 @@ public class ServerWithCustomSerializer extends Server {
         // note: for resilience, multiple registries can be running on multiple machines, in which case
         // the client and server should be given the full list of all registries available
 
-        Server server = new ServerWithCustomSerializer();
+        Server server = new ServerWithPersistence();
         server.start(registries);
     }
 
     public void start(List<InetSocketAddress> registries) throws InterruptedException {
 
-        // once the custom serializer is written, it is is very simple to have it used - no code change
-        // is required at all in the client and the only code change in the server is to pass in
-        // the 'DataSerializerFactory'
+        CacheLoaderPersisterFactory<String, Data> loaderPersisterFactory = new KeyBasedCacheLoaderPersisterFactory<>();
 
         // create a cache
-        log.info("### CREATE PUBLISHING CACHE USING CUSTOM SERIALIZER");
-        PublishingCacheBuilder<String, Data> builder = new PublishingCacheBuilder<>(registries, new DataSerializerFactory());
+
+        log.info("### CREATE PUBLISHING CACHE WITH PERSISTENCE");
+
+        PublishingCacheBuilder<String, Data> builder = new PublishingCacheBuilder<>(registries, null, loaderPersisterFactory );
+                                    // its always safe to pass null into the constructor and the default implementation will be used
+
+        // using the default Loader/Persister means that all published entries are saved to a "flat-file data-store" using the
+        // defined serializer, and at startup, the cache is pre-populated from the data-store.
+        // Note: the flat-file  used for the data-store has the data-stamp in its name so that only 'todays' entries
+        // will be populated back into the cache after a re-start
+
         Cache<String, Data> cache = builder.build(CACHE_NAME); // clients will subscribe to this cache-name
 
+        // publish data to the cache
+
         publishData(cache);
-
-        // NB: both Server and  ServerWithCustomSerializer can run, they will both register themselves with the registry
-        // and the registry will load-balance connections to them  - the same client-code can connect to either version
-        // (its not recommended to have different types of serialization active at the same time, but it doesn't cause problems)
     }
-
 }

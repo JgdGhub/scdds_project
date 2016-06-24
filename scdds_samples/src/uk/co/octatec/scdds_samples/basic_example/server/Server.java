@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.cache.Cache;
 import uk.co.octatec.scdds.cache.PublishingCacheBuilder;
+import uk.co.octatec.scdds_samples.RegistryCommandLine;
 import uk.co.octatec.scdds_samples.basic_example.Data;
 
 import java.net.InetSocketAddress;
@@ -23,7 +24,7 @@ public class Server {
 
     protected static final String CACHE_NAME = "basic-data";
 
-    private static String information = (new Date()).toString();
+    protected static String information = (new Date()).toString();
 
     public static void main(String[] args) throws InterruptedException{
 
@@ -31,16 +32,7 @@ public class Server {
 
         // first, get the location of the registry from the command line
 
-        String registryHost = "localhost";
-        int registryPort = 9999; // default registry port for these samples
-        for( String arg : args) {
-            if( arg.startsWith("-rhost:")) {
-                registryHost = arg.substring(7);
-            }
-            else if( arg.startsWith("-rport:")) {
-                registryPort = Integer.parseInt(arg.substring(7));
-            }
-        }
+        ArrayList<InetSocketAddress> registries = RegistryCommandLine.init(args);
 
         // NOTE: a registry must be running at registryHost:registryPort on the network
         // this can be done using the "Registry-Server" configuration from the InteliJ Menu-bar, alternatively...
@@ -53,14 +45,11 @@ public class Server {
         // note: for resilience, multiple registries can be running on multiple machines, in which case
         // the client and server should be given the full list of all registries available
 
-        ArrayList<InetSocketAddress> registries = new ArrayList<>();
-        registries.add(new InetSocketAddress(registryHost, registryPort));
-
         Server server = new Server();
         server.start(registries);
     }
 
-    protected void start(List<InetSocketAddress> registries) throws InterruptedException {
+    public void start(List<InetSocketAddress> registries) throws InterruptedException {
 
         // create a cache
 
@@ -80,7 +69,10 @@ public class Server {
         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 
         // now publish data
+        int count = 0;
         while(true) {
+            ++count;
+            //log.info("publish data, start loop count={}", count);
             for(int i = 1; i<=1000; i++) {
                 String key = "data_"+i;
                 cache.put(key, new Data(i, information));
