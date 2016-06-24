@@ -1,0 +1,14 @@
+When you start the IntelliJ project, you will probably see error messages like "Git executable problem", thats
+just related to where the IntelliJ project expects git to be installed and can be ignored, it won't stop
+you building the code.
+
+Once the IntelliJ project is downloaded, the easiest thing to do is just run the tests, that will
+build anything that needs building. All tests are expected to pass.
+
+Of course, you don't have to build the code, you can just use the jar under "scdds/out/artifacts"
+
+You can also use the ant build file scdds/build.xml ("makejar" and "runtests" targets) to build and run the code.
+In fact, the IntelliJ project doesn't build the jar, the "makejar" ant target is the only pre-defined way to
+build the jar.
+
+There is a also a maven pom file, 'pom.xml' but this currently has limited functionality and only complies the code,
