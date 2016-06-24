@@ -11,10 +11,10 @@
 
     <property name="src" location="src"/>
     <property name="test_src" location="test"/>
-    <property name="build" location="./out/production/scdds"/>
-    <property name="test_build" location="./out/test/scdds"/>
-    <property name="jar_dir" location="./out/artifacts/scdds_${version}_jar"/>
-    <property name="test_reports" location="./out/test_reports" />
+    <property name="build" location="../out/production/scdds"/>
+    <property name="test_build" location="../out/test/scdds"/>
+    <property name="jar_dir" location="out/artifacts/"/>
+    <property name="test_reports" location="../out/test_reports" />
 
 
     <target name="init">
