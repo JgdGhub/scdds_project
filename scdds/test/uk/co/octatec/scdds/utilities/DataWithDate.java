@@ -13,13 +13,15 @@ package uk.co.octatec.scdds.utilities;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Jeromy Drake on 09/05/2016.
  */
-public class DataWithDate implements Serializable {
+public class DataWithDate implements Serializable, ImmutableEntry {
 
     long serialVersionUID = 1;
 

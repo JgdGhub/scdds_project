@@ -24,6 +24,8 @@ import java.util.Map;
 
 /**
  * Created by Jeromy Drake on 05/05/16
+ *
+ * This class is used internally on the client side to read the initial update sent by a server
  */
 public class InitialUpdateReader<K,T> {
 

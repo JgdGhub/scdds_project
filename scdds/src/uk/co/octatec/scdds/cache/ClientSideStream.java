@@ -27,8 +27,12 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by Jeromy Drake on 20/05/2016.
+ *
+ * This class is used internal and takes the place of the local copy of the cache
+ * when a client subscribes for streaming updates (as opposed to updates that are
+ * applied to a local copy of the cache)
  */
-class ClientSideStream<K,T> extends CacheImplClientSide<K,T> { //  this is only used internally and not visible to clients
+class ClientSideStream<K,T extends ImmutableEntry> extends CacheImplClientSide<K,T> { //  this is only used internally and not visible to clients
 
     // this gives the client the option to subscribe to a remote cache, but not store the data locally,
     // i.e. the client will get the CacheListener events but there will be no local copy of the cache,

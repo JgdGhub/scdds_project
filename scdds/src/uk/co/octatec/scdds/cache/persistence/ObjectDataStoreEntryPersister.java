@@ -15,27 +15,33 @@ package uk.co.octatec.scdds.cache.persistence;
 */
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.odb.ObjectDataStore;
 
 import java.io.IOException;
 
 /**
  * Created by Jeromy Drake on 02/05/2016.
+ *
+ * Write cache entries one after another into a flat file, new entries are appended to the file so that
+ * a histrory of entries is preserver in the data-store.
  */
-public class ObjectDataStoreEntryPersisterImpl<K,T> implements EntryPersister<K,T> {
-    private final static Logger log = LoggerFactory.getLogger(ObjectDataStoreEntryPersisterImpl.class);
+public class ObjectDataStoreEntryPersister<K,T extends ImmutableEntry> implements EntryPersister<K,T> {
+
+    private final static Logger log = LoggerFactory.getLogger(ObjectDataStoreEntryPersister.class);
 
     private ObjectDataStore<K,T> db = new ObjectDataStore<>() ;
 
     private String fileName;
 
-    public ObjectDataStoreEntryPersisterImpl(String cacheName, String suffix) {
+    public ObjectDataStoreEntryPersister(String cacheName, String suffix) {
         fileName =  cacheName+"_"+suffix+".dat";
     }
 
     @Override
     public void open() {
         try {
+            log.info("ObjectDataStoreEntryPersister open [{]]", fileName);
             db.openForWrite(fileName);
         }
         catch( IOException e) {
@@ -46,6 +52,7 @@ public class ObjectDataStoreEntryPersisterImpl<K,T> implements EntryPersister<K,
 
     @Override
     public void close() {
+        log.info("ObjectDataStoreEntryPersister close [{]]", fileName);
         db.close();
     }
 

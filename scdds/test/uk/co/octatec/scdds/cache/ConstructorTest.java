@@ -396,7 +396,7 @@ public class ConstructorTest {
         ThreaderFactory threaderFactory = new MockThreaderFactory();
 
         PublishingCacheBuilder<String,SimpleData> builder = new PublishingCacheBuilder(registries, serializerFactory, cacheLoaderPersisterFactory,
-                                        listenerEventQueueFactory, mapFactory, cachePublisherFactory, listenerEventFactory, threaderFactory, generalRequestHandlerFactory);
+                                        listenerEventQueueFactory, mapFactory, cachePublisherFactory, listenerEventFactory, threaderFactory, generalRequestHandlerFactory, null);
 
         Assert.assertTrue("serializerFactory set on builder", isSameObject(builder.getSerializerFactory(),serializerFactory) );
         Assert.assertTrue("cacheLoaderPersisterFactory set on builder", isSameObject(builder.getCacheLoaderPersisterFactory(),cacheLoaderPersisterFactory ) );
@@ -427,7 +427,7 @@ public class ConstructorTest {
         ThreaderFactory threaderFactory = null;
 
         PublishingCacheBuilder<String,SimpleData> builder = new PublishingCacheBuilder(registries, serializerFactory, cacheLoaderPersisterFactory,
-                listenerEventQueueFactory, mapFactory, cachePublisherFactory, listenerEventFactory, threaderFactory, generalRequestHandlerFactory);
+                listenerEventQueueFactory, mapFactory, cachePublisherFactory, listenerEventFactory, threaderFactory, generalRequestHandlerFactory, null);
 
         Assert.assertNotNull("serializerFactory set on builder", builder.getSerializerFactory() );
         Assert.assertNotNull("cacheLoaderPersisterFactory set on builder", builder.getCacheLoaderPersisterFactory() );
@@ -526,7 +526,7 @@ public class ConstructorTest {
         MapFactory<String,SimpleData>  mapFactory = new  MyMapFactory<>();
         ListenerEventFactory<String,SimpleData>  listenerEventFactory = new ListenerEventFactoryDefaultImpl<>();
 
-        SubscriptionCacheBuilder<String, SimpleData> builder = new SubscriptionCacheBuilder<>(registries, listenerEventQueueFactory, cacheSubscriberFactory, mapFactory,listenerEventFactory);
+        SubscriptionCacheBuilder<String, SimpleData> builder = new SubscriptionCacheBuilder<>(registries, listenerEventQueueFactory, cacheSubscriberFactory, mapFactory,listenerEventFactory, null);
 
         Assert.assertTrue("listenerEventQueueFactory set on builder", isSameObject(builder.getListenerEventQueueFactory(),listenerEventQueueFactory) );
         Assert.assertTrue("cacheSubscriberFactory set on builder", isSameObject(builder.getCacheSubscriberFactory(),cacheSubscriberFactory) );
@@ -547,7 +547,7 @@ public class ConstructorTest {
         MapFactory<String,SimpleData>  mapFactory = null;
         ListenerEventFactory<String,SimpleData>  listenerEventFactory = null;
 
-        SubscriptionCacheBuilder<String, SimpleData> builder = new SubscriptionCacheBuilder<>(registries, listenerEventQueueFactory, cacheSubscriberFactory, mapFactory,listenerEventFactory);
+        SubscriptionCacheBuilder<String, SimpleData> builder = new SubscriptionCacheBuilder<>(registries, listenerEventQueueFactory, cacheSubscriberFactory, mapFactory,listenerEventFactory, null);
 
         Assert.assertNotNull("listenerEventQueueFactory not null", builder.getListenerEventQueueFactory() );
         Assert.assertNotNull("cacheSubscriberFactory not null", builder.getCacheSubscriberFactory() );

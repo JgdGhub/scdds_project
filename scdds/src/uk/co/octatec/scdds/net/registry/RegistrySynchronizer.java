@@ -44,6 +44,7 @@ public class RegistrySynchronizer {
             log.error("can't connect to remote registry [{}]", addr);
             throw new IOException("can't connect to registry at ["+addr+"] to do sync");
         }
+        sc.write(RegistryServer.PROTO_ID, 0, 1);
         BlockIO bIO = sc.getBlockIO();
         bIO.writeString(RegistryServer.CMD_DUMP);
         String registryDump = bIO.readString();

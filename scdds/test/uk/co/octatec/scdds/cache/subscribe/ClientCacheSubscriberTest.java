@@ -18,6 +18,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.GlobalProperties;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.utilities.AwaitParams;
 import uk.co.octatec.scdds.utilities.DataWithDate;
 import uk.co.octatec.scdds.utilities.SimpleCacheListener;
@@ -51,7 +53,7 @@ public class ClientCacheSubscriberTest {
 
     private final static Logger log = LoggerFactory.getLogger(ClientCacheSubscriberTest.class);
 
-    static class TestCacheSubscriberImpl<K,T> extends CacheSubscriberImpl<K,T> {
+    static class TestCacheSubscriberImpl<K,T extends ImmutableEntry> extends CacheSubscriberImpl<K,T> {
 
         volatile Serializer<K,T> serializer = null;
         volatile boolean subscriptionLoopEntered;
@@ -127,6 +129,7 @@ public class ClientCacheSubscriberTest {
     @BeforeClass
     public static void setup() {
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        GlobalProperties.exposeHttpServer = false;
     }
 
     @Test

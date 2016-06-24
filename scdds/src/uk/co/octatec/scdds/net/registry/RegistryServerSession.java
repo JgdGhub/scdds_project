@@ -15,6 +15,8 @@ package uk.co.octatec.scdds.net.registry;
 */
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.net.registry.http.LightweightHttp;
+import uk.co.octatec.scdds.net.registry.http.RegistryToHtml;
 import uk.co.octatec.scdds.net.socket.BlockIO;
 import uk.co.octatec.scdds.net.socket.Session;
 
@@ -43,25 +45,47 @@ public class RegistryServerSession implements Runnable {
     @Override
     public void run() {
         try {
-            String request = bIO.readString();
-            log.info("processing request [{}] from [{}]", request, clientAddr);
-            String reply = processRequest(request);
-            log.info("sending reply [{}] to [{}] request=[{}}", reply, clientAddr, request);
-            bIO.writeString(reply);
+            byte[] protoIdFlag = new byte[1];
+            sc.read(protoIdFlag, 0, 1);
+            if( protoIdFlag[0] != RegistryServer.PROTO_ID_FLAG ) {
+                // not a registry protocol request, so assume its an HTTP request
+                handleHttpRequest(protoIdFlag);
+            }
+            else {
+                String request = bIO.readString();
+                log.info("processing request [{}] from [{}]", request, clientAddr);
+                String reply = processRequest(request);
+                log.info("sending reply [{}] to [{}] request=[{}}", reply, clientAddr, request);
+                bIO.writeString(reply);
+            }
         }
         catch( IOException e) {
             log.error("IOException processing registry session with [{}] [{}]", clientAddr, e.getMessage() );
         }
     }
 
+    private void handleHttpRequest(byte[] buff) throws  IOException{
+        LightweightHttp http = new LightweightHttp(sc);
+        String target = http.readRequest(buff);
+        if( http.getHttpMethod().equalsIgnoreCase("GET") && target.equals("/scdds/registry/") || target.equals("/scdds/registry")) {
+            String text = RegistryToHtml.format(registry);
+            http.sendXmlReply(text);
+        }
+        else {
+            http.replyNotFound();
+        }
+    }
+
     private String processRequest(String request) {
+
         String[] args = request.split("[:]");
         if( args[0].equals(RegistryServer.CMD_REGISTER)) {
             String name = args[1];
             String host = args[2];
             String port = args[3];
-            String group = args[4];
-            registry.add(name, host, port, group);
+            String htmpPort = args[4];
+            String group = args[5];
+            registry.add(name, host, port, htmpPort, group);
             return  RegistryServer.RSP_OK;
         }
         else if( args[0].equals(RegistryServer.CMD_FIND)) {
@@ -71,7 +95,7 @@ public class RegistryServerSession implements Runnable {
                 return RegistryServer.RSP_NOT_FOUND;
             }
             else {
-                return RegistryServer.RSP_FOUND+":"+instance.host+":"+instance.port+":"+instance.group+":"+instance.connectionsCount;
+                return RegistryServer.RSP_FOUND+":"+instance.host+":"+instance.port+":"+instance.group+":"+instance.connectionsCount+":"+instance.htmlPort;
             }
         }
         else if( args[0].equals(RegistryServer.CMD_DUMP)) {

@@ -23,6 +23,7 @@ public interface RegistryEntryValidator {
 
         String getHost();
         int getPort();
+        int getMbeanPort();
         String getCacheName();
         String getGroup();
         void setInvalid();

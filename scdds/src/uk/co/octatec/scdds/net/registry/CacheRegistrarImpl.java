@@ -69,28 +69,27 @@ public class CacheRegistrarImpl implements CacheRegistrar {
     }
 
     @Override
-    public void registerCache(String name, String host, int port, int numRetries) {
-        registerCache(name, host, port, Registry.ANONYMOUS_GROUP, numRetries);
+    public void registerCache(String name, String host, int port, int htmpPort, int numRetries) {
+        registerCache(name, host, port, htmpPort, Registry.ANONYMOUS_GROUP, numRetries);
     }
 
-    private Action registerCache(String name, String host, int port, String group, int numRetries) {
-        log.info("registering [{}] [{}] [{}] numRetries=[{}]", name, host, port, numRetries);
+    private Action registerCache(String name, String host, int port, int htmpPort, String group, int numRetries) {
+        log.info("registering [{}] [{}] [{}] [{}] numRetries=[{}]", name, host, port, htmpPort, numRetries);
         registriesContactedCount = 0;
         // keep this method private until support for the group-parameter is added
         if( !group.equals(Registry.ANONYMOUS_GROUP))  {
-
             log.error("High-Availability Groups are not yet supported group=[{}] cache-name=[{}]", group, name);
             throw new RuntimeException("High-Availability Groups are not yet supported");
         }
 
         Action a;
         while( true ) {
-            a = doRegisterCache(RegistryServer.CMD_REGISTER, name, host, port, group, numRetries);
+            a = doRegisterCache(RegistryServer.CMD_REGISTER, name, host, port, htmpPort, group, numRetries);
             // we expect all registries to always agree at the moment, the possibility
             // of disagreement will only arise when High-Availability Groups are implemented
             // (its still probably a useful check, 'just in case...' )
             if( a == Action.RETRY ){
-                doRegisterCache(RegistryServer.CMD_UNREGISTER, name, host, port, group, numRetries);
+                doRegisterCache(RegistryServer.CMD_UNREGISTER, name, host, port, htmpPort, group, numRetries);
                 try {
                     sleepRandom(1000);
                 }
@@ -107,7 +106,7 @@ public class CacheRegistrarImpl implements CacheRegistrar {
         return a;
     }
 
-    private Action doRegisterCache(String cmd, String name, String host, int port, String group, int numRetries) {
+    private Action doRegisterCache(String cmd, String name, String host, int port, int htmpPort, String group, int numRetries) {
 
         ArrayList<ResgistryResponse>  results = new ArrayList<>();
 
@@ -117,7 +116,7 @@ public class CacheRegistrarImpl implements CacheRegistrar {
         while( true ) {
             ++count;
             for (InetSocketAddress registryAddr : registries) {
-                ResgistryResponse r = doRegisterCache(cmd, name, host, port, group, registryAddr);
+                ResgistryResponse r = doRegisterCache(cmd, name, host, port, htmpPort, group, registryAddr);
                 if (r != null) {
                     results.add(r);
                 }
@@ -154,16 +153,21 @@ public class CacheRegistrarImpl implements CacheRegistrar {
         return Action.FAIL;
     }
 
-    private ResgistryResponse doRegisterCache(String cmd, String name, String host, int port, String group, InetSocketAddress registryAddr) {
+    static String buildRequestString(String cmd, String name, String host, int port, int htmpPort, String group) {
+        return cmd + ":" + name + ":" + host + ":" + port + ":" +htmpPort+":" + group;
+    }
+
+    private ResgistryResponse doRegisterCache(String cmd, String name, String host, int port, int htmlPort, String group, InetSocketAddress registryAddr) {
         Session sd = RegistryOpener.openRegistry(registryAddr, "Registrar");
         if( sd == null ) {
             return null;
         }
         try {
             ++registriesContactedCount;
-            String request = cmd + ":" + name + ":" + host + ":" + port + ":" + group;
+            String request = buildRequestString(cmd, name, host, port, htmlPort, group);
             log.info("registry request: [{}] to [{}]", request, registryAddr);
             BlockIO bIO = sd.getBlockIO();
+            sd.write(RegistryServer.PROTO_ID, 0, 1);
             bIO.writeString(request);
             String response = bIO.readString();
             log.info("registry response: [{}] from [{}]", response, registryAddr);

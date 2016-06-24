@@ -43,9 +43,10 @@ public class MyEventQueueListener<String> implements EventQueueListener<String, 
 
     @Override
     public void onEvent(MyEvent<String> event) {
-        log.info("listener got event [{}] key=[{}] canBeBatched?{}", event, event.key, event.canBeBatched);
+
         events.add(event);
         eventsSet.add(event.getKey());
+        log.info("listener got event [{}] key=[{}] event-count={} canBeBatched?{}", event,  event.key, events.size(),event.canBeBatched);
     }
 
     @Override

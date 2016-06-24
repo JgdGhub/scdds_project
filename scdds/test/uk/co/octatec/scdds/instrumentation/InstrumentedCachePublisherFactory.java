@@ -14,6 +14,7 @@ package uk.co.octatec.scdds.instrumentation;
   for complete details.
 */
 import uk.co.octatec.scdds.cache.CacheImpl;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.publish.CachePublisher;
 import uk.co.octatec.scdds.cache.publish.CachePublisherFactory;
 import uk.co.octatec.scdds.cache.publish.CachePublisherImpl;
@@ -24,7 +25,7 @@ import uk.co.octatec.scdds.net.serialize.SerializerFactory;
 /**
  * Created by Jeromy Drake on 12/05/2016.
  */
-public class InstrumentedCachePublisherFactory<K,T> implements CachePublisherFactory<K,T> {
+public class InstrumentedCachePublisherFactory<K,T extends ImmutableEntry> implements CachePublisherFactory<K,T> {
 
 
     private final InstrumentedServerSession instrumentedServerSession = new InstrumentedServerSession();

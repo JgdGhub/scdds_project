@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.GlobalProperties;
 import uk.co.octatec.scdds.utilities.SimpleData;
 import uk.co.octatec.scdds.mock.MockSession;
 import uk.co.octatec.scdds.net.serialize.DefaultSerializer;
@@ -43,6 +44,7 @@ public class CachePublisherSubscriptionTest {
     @BeforeClass
     public static void setup() {
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        GlobalProperties.exposeHttpServer = false;
     }
 
     @Test

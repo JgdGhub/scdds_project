@@ -20,11 +20,14 @@ import static uk.co.octatec.scdds.ConditionalCompilation._DBG;
 
 /**
  * Created by Jeromy Drake on 17/05/2016.
+ *
+ *  This is basically a thread pool, but the user can choose which thread runs the job -
+ *  this is important so that the order of publications is preserved for a given
+ *  client - it is used when sending cache entries to the network, a particular thread is
+ *  associated with a particular client.
+ *
  */
 public class ThreaderImpl implements  Threader {
-    // this is basically a thread pool, but It can choose which thread runs the job -
-    // this is important so that the order of publications is preserved for a given
-    // client
 
     private final static Logger log = LoggerFactory.getLogger(ThreaderImpl.class);
 

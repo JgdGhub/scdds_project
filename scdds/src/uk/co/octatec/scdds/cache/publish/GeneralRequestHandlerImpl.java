@@ -30,11 +30,11 @@ import java.util.concurrent.ConcurrentMap;
 */
 /**
  * Created by Jeromy Drake on 04/05/16
+ *
+ * There is a single instance of this class per process, it listens for
+ * 'general' requests, i.e. requests for a heartbeat and requests to check the
+ * number of active subscriptions
  */
-
-// there is a single instance of this class per process, it listens for
-// 'general' requests, i.e. requests for a heartbeat and requests to check the
-// number of active subscriptions
 
 public class GeneralRequestHandlerImpl implements GeneralRequestHandler {
 

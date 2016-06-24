@@ -78,9 +78,9 @@ public class ResgistryTest {
 
         log.info("# test registration");
 
-        registry.add("MyCache1", "localhost", "9991",  "#");
-        registry.add("MyCache2", "serverA", "9992",  "#");
-        registry.add("MyCache2", "serverB", "9993",  "#");
+        registry.add("MyCache1", "localhost", "9991", "1", "#");
+        registry.add("MyCache2", "serverA", "9992", "2",  "#");
+        registry.add("MyCache2", "serverB", "9993", "3", "#");
         Map<String, List<Registry.Entry>> map = registry.getRegistryMap();
         Assert.assertTrue("registry is not empty", registry.getRegistryMap().size()==2);
         List<Registry.Entry> list1 = map.get("MyCache1");
@@ -155,10 +155,10 @@ public class ResgistryTest {
 
         log.info("register some entries");
 
-        registry1.add("MyCache0", "localhost", "9991",  "#");
-        registry1.add("MyCache1", "localhost", "9991",  "#");
-        registry1.add("MyCache2", "serverA", "9992",  "#");
-        registry1.add("MyCache2", "serverB", "9993",  "#");
+        registry1.add("MyCache0", "localhost", "9991", "1", "#");
+        registry1.add("MyCache1", "localhost", "9991", "1", "#");
+        registry1.add("MyCache2", "serverA", "9992",  "2", "#");
+        registry1.add("MyCache2", "serverB", "9993",  "3", "#");
 
         {
             Map<String, List<Registry.Entry>> map = registry1.getRegistryMap();
@@ -243,7 +243,7 @@ public class ResgistryTest {
 
         CacheRegistrar reg = new CacheRegistrarImpl(registryServers);
 
-        reg.registerCache("MyCache1", "serverA", 9999, 1);
+        reg.registerCache("MyCache1", "serverA", 9999, 99, 1);
         log.info("registry contact count [{}] during registration time=[{}]", reg.getRegistriesContactedCount(), System.currentTimeMillis() - timeStart);
         Assert.assertTrue("registry contact count during registration", reg.getRegistriesContactedCount() == 1);
 
@@ -327,7 +327,7 @@ public class ResgistryTest {
 
         CacheRegistrar reg = new CacheRegistrarImpl(registryServers);
 
-        reg.registerCache("MyCache1", "serverX", 9991, 1);
+        reg.registerCache("MyCache1", "serverX", 9991, 91, 1);
         log.info("registry contact count [{}] during registration",reg.getRegistriesContactedCount());
         Assert.assertTrue("registry contact count during registration (expect 2)", reg.getRegistriesContactedCount()==2);
 
@@ -391,6 +391,39 @@ public class ResgistryTest {
     }
 
     @Test
+    public void entryFromShortStringTest() {
+
+        log.info("#entryTest");
+
+        Registry.Entry e = new  Registry.Entry("cacheNme", "host", "991", "881", "group");
+        Assert.assertEquals("cacheNme", "cacheNme", e.cacheName);
+        Assert.assertEquals("host", "host", e.host);
+        Assert.assertEquals("port", "991", e.port);
+        Assert.assertEquals("htmlPort", "881", e.htmlPort);
+        Assert.assertEquals("group", "group", e.group);
+
+        String s = e.toShortString();
+        Registry.Entry e2 = Registry.Entry.fromShortString(s);
+
+        Assert.assertEquals("cacheNme(2)",  e.cacheName, e2.cacheName);
+        Assert.assertEquals("host(2)", e.host, e2.host);
+        Assert.assertEquals("port(2)", e.port, e2.port);
+        Assert.assertEquals("htmlPort(2)", e.htmlPort, e2.htmlPort);
+        Assert.assertEquals("group(2)", e.group, e2.group);
+    }
+
+    @Test
+    public void entryAddTest() {
+        Registry registry = new Registry();
+        Registry.Entry e = registry.add("cacheNme", "host", "991", "881", "group");
+        Assert.assertEquals("cacheNme", "cacheNme", e.cacheName);
+        Assert.assertEquals("host", "host", e.host);
+        Assert.assertEquals("port", "991", e.port);
+        Assert.assertEquals("htmlPort", "881", e.htmlPort);
+        Assert.assertEquals("group", "group", e.group);
+    }
+
+    @Test
     public void runtimeSynchronizationTest() throws Exception{
 
         log.info("## runtimeSynchronizationTest");
@@ -420,17 +453,18 @@ public class ResgistryTest {
 
         CacheRegistrar reg = new CacheRegistrarImpl(registryServers);
 
-        reg.registerCache("MyCache1", "serverX_1", 9991, 1);
-        reg.registerCache("MyCache1", "serverX_2", 9991, 1);
-        reg.registerCache("MyCache1", "serverX_3", 9991, 1);
-        reg.registerCache("MyCache2", "serverX_1", 9992, 1);
-        reg.registerCache("MyCacheA", "serverA", 9993, 1);
-        reg.registerCache("MyCacheB", "serverB", 9994, 1);
+        reg.registerCache("MyCache1", "serverX_1", 9991, 91, 1);
+        reg.registerCache("MyCache1", "serverX_2", 9991, 91, 1);
+        reg.registerCache("MyCache1", "serverX_3", 9991, 91, 1);
+        reg.registerCache("MyCache2", "serverX_1", 9992, 92, 1);
+        reg.registerCache("MyCacheA", "serverA", 9993, 93, 1);
+        reg.registerCache("MyCacheB", "serverB", 9994, 94, 1);
 
-        {
-            Map<String, List<Registry.Entry>> map1 = registryServer1.getRegistryMap();
-            Assert.assertTrue("registry-1 has map entries", map1.size()==4);
-            Assert.assertTrue("registry-1 has total entries", registryServer1.getEntryCount()==6);
+        Map<String, List<Registry.Entry>> map1 = registryServer1.getRegistryMap();
+        Assert.assertTrue("registry-1 has map entries", map1.size()==4);
+        Assert.assertTrue("registry-1 has total entries", registryServer1.getEntryCount()==6);
+        for(Map.Entry<String, List<Registry.Entry>> e : map1.entrySet() ) {
+            log.info("ENTRY(1) [{}] {}", e.getKey(), e.getValue());
         }
 
         // REGISTRY 2
@@ -450,6 +484,10 @@ public class ResgistryTest {
 
         Assert.assertTrue("after sync registry-2 has map entries", map2.size()==4);
         Assert.assertTrue("after sync registry-2 has total entries", registryServer2.getEntryCount()==6);
+
+        for(Map.Entry<String, List<Registry.Entry>> e : map2.entrySet() ) {
+            log.info("ENTRY(2) [{}] {}", e.getKey(), e.getValue());
+        }
 
       }
 }

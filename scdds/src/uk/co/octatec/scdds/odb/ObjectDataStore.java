@@ -81,13 +81,24 @@ public class ObjectDataStore<K,T> {
     }
 
     public void openForWrite(String path) throws IOException {
+        //log.info("ObjectDataStore.openForWrite [{}]", path);
         out = new DataOutputStream(new FileOutputStream(path));
     }
     public void openForRead(String path) throws IOException {
+        //log.info("ObjectDataStore.openForWrite [{}]", path);
         in = new DataInputStream(new FileInputStream(path));
     }
 
+    public boolean isOpenForRead() {
+        return in != null;
+    }
+
+    public boolean isOpenForWrite() {
+        return out != null;
+    }
+
     public void close() {
+        //log.info("ObjectDataStore.close");
         try {
             if( out != null ) {
                 out.close();
@@ -158,7 +169,7 @@ public class ObjectDataStore<K,T> {
 
         len = in.read(bInt);
         if( len < bInt.length ) {
-            log.error("short usser-data read, wanted [4] got [{}]", len);
+            log.error("short user-data read, wanted [4] got [{}]", len);
             throw new IOException("short user-data read");
         }
         int userData = SerializerUtils.readIntFromBytes(bInt);

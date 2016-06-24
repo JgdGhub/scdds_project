@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.GlobalDefaults;
+import uk.co.octatec.scdds.GlobalProperties;
 import uk.co.octatec.scdds.cache.Cache;
 import uk.co.octatec.scdds.cache.PublishingCacheBuilder;
 import uk.co.octatec.scdds.cache.SubscriptionCacheBuilder;
@@ -58,6 +59,7 @@ public class IntegrationTest {
     public static void setup() {
 
         //System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        GlobalProperties.exposeHttpServer = false;
     }
 
     static class ServerSideCacheStarter implements  Runnable {
@@ -844,7 +846,7 @@ public class IntegrationTest {
         registries.add(new InetSocketAddress("localhost", registryPort));
 
         InstrumentedCachePublisherFactory<String, SimpleData> cachePublisherFactory = new   InstrumentedCachePublisherFactory<String, SimpleData>(); // so we can control the server sending heartbeats
-        PublishingCacheBuilder<String, SimpleData> server = new PublishingCacheBuilder<String, SimpleData>(registries, null, null, null, null, cachePublisherFactory, null, null, null);
+        PublishingCacheBuilder<String, SimpleData> server = new PublishingCacheBuilder<String, SimpleData>(registries, null, null, null, null, cachePublisherFactory, null, null, null, null);
         Cache<String, SimpleData> serverCache = server.build(cacheName);
 
         serverCache.put("S1", new SimpleData("S1", 1));

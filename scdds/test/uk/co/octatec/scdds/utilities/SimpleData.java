@@ -13,18 +13,31 @@ package uk.co.octatec.scdds.utilities;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
+
 import java.io.Serializable;
 
 /**
  * Created by Jeromy Drake on 06/05/16
  */
-public class SimpleData implements Serializable {
+public class SimpleData implements Serializable, ImmutableEntry {
+
+    static final long serialVersionUID = 1;
+
     public String data1;
     public int data2;
 
     public SimpleData(String data1, int data2) {
         this.data1 = data1;
         this.data2 = data2;
+    }
+
+    public String getData1() {
+        return data1;
+    }
+
+    public int getData2() {
+        return data2;
     }
 
     @Override

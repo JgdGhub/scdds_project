@@ -82,6 +82,7 @@ public class CacheLocatorImpl implements CacheLocator {
             BlockIO bIO = sd.getBlockIO();
             String request = RegistryServer.CMD_FIND + ":" + name;
             log.info("registry request: [{}]", request);
+            sd.write(RegistryServer.PROTO_ID, 0, 1);
             bIO.writeString(request);
             String reply = bIO.readString();
             sd.close();

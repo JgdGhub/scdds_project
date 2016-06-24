@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import static uk.co.octatec.scdds.ConditionalCompilation._DBG;
 
 import uk.co.octatec.scdds.cache.CacheImpl;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.ListenerEvent;
 import uk.co.octatec.scdds.cache.publish.threading.Threader;
 import uk.co.octatec.scdds.net.serialize.Serializer;
@@ -33,7 +34,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by Jeromy Drake on 03/05/2016.
  */
-public class CachePublisherImpl<K,T> implements CachePublisher<K,T> {
+public class CachePublisherImpl<K,T extends ImmutableEntry> implements CachePublisher<K,T> {
 
     private final Logger log = LoggerFactory.getLogger(CachePublisherImpl.class);
 

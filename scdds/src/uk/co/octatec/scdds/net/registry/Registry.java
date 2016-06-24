@@ -16,10 +16,7 @@ package uk.co.octatec.scdds.net.registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Jeromy Drake on 01/05/2016.
@@ -36,6 +33,7 @@ public class Registry {
         String host;
         String port;
         String group;
+        String htmlPort;
         int connectionsCount;
 
         @Override
@@ -46,6 +44,11 @@ public class Registry {
         @Override
         public int getPort() {
             return Integer.parseInt(port);
+        }
+
+        @Override
+        public int getMbeanPort() {
+            return Integer.parseInt(htmlPort);
         }
 
         @Override
@@ -75,20 +78,21 @@ public class Registry {
 
         public static Entry fromShortString(String s) {
             String[] ss = s.split("[;]") ;
-            if( ss.length != 5 ) {
-                log.error("wrong format of shot-string [{}], need 5 fields", s) ;
+            if( ss.length != 6 ) {
+                log.error("wrong format of shot-string [{}], need 6 fields", s) ;
                 return null;
             }
-            Entry entry = new Entry(ss[0], ss[1], ss[2], ss[3]);
-            entry.connectionsCount = Integer.parseInt(ss[4]);
+            Entry entry = new Entry(ss[0], ss[1], ss[2], ss[3], ss[4]);
+            entry.connectionsCount = Integer.parseInt(ss[5]);
             return entry;
         }
 
-        public Entry(String cacheName, String host, String port, String group) {
+        public Entry(String cacheName, String host, String port, String htmlPort, String group ) {
             this.cacheName = cacheName;
             this.host = host;
             this.port = port;
             this.group = group;
+            this.htmlPort = htmlPort;
         }
 
         public void setInvalid() {
@@ -128,12 +132,13 @@ public class Registry {
                     "cacheName='" + cacheName + '\'' +
                     ", host='" + host + '\'' +
                     ", port='" + port + '\'' +
+                    ", htmlPort='" + htmlPort + '\'' +
                     ", group='" + group + '\'' +
                     ", connectionsCount=" + connectionsCount +
                     '}';
         }
         public String toShortString() {
-            return cacheName+";"+host+";"+port+";"+group+";"+ connectionsCount;
+            return cacheName+";"+host+";"+port+";"+ htmlPort +";"+group+";"+ connectionsCount;
         }
 
     }
@@ -223,11 +228,12 @@ public class Registry {
         return sb.toString();
     }
 
-    public void add(String name, String host, String port, String group) {
+    public Entry add(String name, String host, String port, String htmpPort, String group ) {
 
-        log.info("registartion request: [{}] [{}} [{}] [{}]", name, host, port, group);
-        Entry newInstance = new Entry(name, host, port, group);
+        log.info("registration request from server: [{}] [{}} [{}] [{}] [{]]", name, host, port, htmpPort, group );
+        Entry newInstance = new Entry(name, host, port, htmpPort, group );
         addEntry(newInstance);
+        return  newInstance;
     }
 
     void addEntry(Entry newInstance) {
@@ -255,8 +261,11 @@ public class Registry {
         }
     }
 
-    Map<String, List<Entry>> getRegistryMap() {
-        return registryMap;
+    public int size() {
+        return registryMap.size();
+    }
+    public Map<String, List<Entry>> getRegistryMap() {
+        return Collections.unmodifiableMap(registryMap);
     }
 
 }

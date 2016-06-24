@@ -1,10 +1,24 @@
 package uk.co.octatec.scdds.cache.subscribe;
+/*
+  SC/DDS - simple cached data distribution service
 
+  Copyright 2016 by Jeromy Drake
+
+  This program is free software; you may redistribute and/or modify it under
+  the terms of the GNU General Public License Version 2 as published by the
+  Free Software Foundation.
+
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  for complete details.
+*/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static uk.co.octatec.scdds.ConditionalCompilation._DBG;
 
 import uk.co.octatec.scdds.GlobalDefaults;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.publish.CacheFilter;
 import uk.co.octatec.scdds.cache.publish.CachePublisher;
 import uk.co.octatec.scdds.cache.publish.PropertyUtils;
@@ -22,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by Jeromy Drake on 04/05/2016.
  */
-public class CacheSubscriberImpl<K,T> implements CacheSubscriber<K,T> {
+public class CacheSubscriberImpl<K,T extends ImmutableEntry> implements CacheSubscriber<K,T> {
 
     private final static Logger log = LoggerFactory.getLogger(CacheSubscriberImpl.class);
 
@@ -36,6 +50,7 @@ public class CacheSubscriberImpl<K,T> implements CacheSubscriber<K,T> {
     final private int maxRetries;
     final ClientConnector connector;
     final InitialUpdateReaderFactory<K,T> initialUpdateReaderFactory;
+
     protected String sessionId;
     protected Thread subscriptionThread;
 
@@ -49,7 +64,7 @@ public class CacheSubscriberImpl<K,T> implements CacheSubscriber<K,T> {
     private volatile int cconnectionCount;
     private volatile int connectionErrorCount;
 
-    public CacheSubscriberImpl(CacheImplClientSide<K,T> cache, CacheLocator locator, CacheFilter<K,T> filter, String filterArg, InitialUpdateReaderFactory<K,T>  initialUpdateReaderFactory ) {
+    public CacheSubscriberImpl(CacheImplClientSide<K,T > cache, CacheLocator locator, CacheFilter<K,T> filter, String filterArg, InitialUpdateReaderFactory<K,T>  initialUpdateReaderFactory ) {
         this(new ClientConnectorImpl("CacheSubClient"), cache, locator, filter, filterArg, MAX_SERVER_RETRIES, initialUpdateReaderFactory);
     }
 

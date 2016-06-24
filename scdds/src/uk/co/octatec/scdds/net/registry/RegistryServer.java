@@ -30,6 +30,9 @@ import java.util.Map;
 public class RegistryServer implements Runnable{
     private final static Logger log = LoggerFactory.getLogger(RegistryServer.class);
 
+    static final byte PROTO_ID_FLAG = (byte) '$';
+    static final byte[] PROTO_ID = new byte[] { PROTO_ID_FLAG };
+
     static final String CMD_FIND = "find";
     static final String CMD_REGISTER = "register";
     static final String CMD_UNREGISTER = "unregister";
@@ -81,7 +84,7 @@ public class RegistryServer implements Runnable{
     }
 
     static RegistryServer startInThread(int port, RegistryEntryValidator registryEntryValidator) { // mainly for unit tests
-        log.info("--- start registry server in thread ---");
+        log.info("--- start registry server in thread on port {} with registryEntryValidator=[{}} ---", port, registryEntryValidator);
         RegistryServer reg = new RegistryServer(port, registryEntryValidator);
         mainThread = new Thread(reg) ;
         mainThread.setName("RegistryServer");

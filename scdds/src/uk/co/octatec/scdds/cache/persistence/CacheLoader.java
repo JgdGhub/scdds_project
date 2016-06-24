@@ -14,11 +14,12 @@ package uk.co.octatec.scdds.cache.persistence;
   for complete details.
 */
 import uk.co.octatec.scdds.cache.Cache;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 
 /**
  * Created by Jeromy Drake on 02/05/2016.
  */
-public interface CacheLoader<K,T> {
+public interface CacheLoader<K,T extends ImmutableEntry> {
     void open();
     void loadCache(Cache<K,T> cache);
     void close();

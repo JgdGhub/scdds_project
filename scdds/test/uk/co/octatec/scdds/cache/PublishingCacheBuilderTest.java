@@ -14,9 +14,11 @@ package uk.co.octatec.scdds.cache;
   for complete details.
 */
 import junit.framework.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.GlobalProperties;
 import uk.co.octatec.scdds.utilities.SimpleCacheListener;
 import uk.co.octatec.scdds.utilities.SimpleData;
 import uk.co.octatec.scdds.net.registry.RegistryServer;
@@ -29,6 +31,11 @@ public class PublishingCacheBuilderTest {
     // test the server-side 'publishing' cache-builder
 
     private final static Logger log = LoggerFactory.getLogger(PublishingCacheBuilderTest.class);
+
+    @BeforeClass
+    public static void setup() {
+        GlobalProperties.exposeHttpServer = false;
+    }
 
     @Test
     public void builderTestNoRegistry() {

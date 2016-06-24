@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Jeromy Drake on 20/05/2016.
  */
-public class SubscriptionStreamBuilder<K,T> {
+public class SubscriptionStreamBuilder<K,T extends ImmutableEntry> {
 
     // this differs from SubscriptionCacheBuilder in that it does not maintain a local cache of data - a subscription is still
     // made to a remote cache and events are fired on a local CacheListener, but there is no actual local cache

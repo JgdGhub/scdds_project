@@ -13,10 +13,13 @@ package uk.co.octatec.scdds.cache.persistence;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+
+import uk.co.octatec.scdds.cache.ImmutableEntry;
+
 /**
  * Created by Jeromy Drake on 02/05/2016.
  */
-public final class  NoOpCacheLoaderPersisterFactory <K,T> implements CacheLoaderPersisterFactory <K,T> {
+public final class  NoOpCacheLoaderPersisterFactory <K,T extends ImmutableEntry> implements CacheLoaderPersisterFactory <K,T> {
     @Override
     public CacheLoader<K, T> createCacheLoader(String cachename) {
         return new NoOpCacheLoader<>();

@@ -17,6 +17,9 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by Jeromy Drake on 03/05/2016.
+ *
+ * A map factory is used to create the map that backs the cache, in this way, alterbative
+ * ConcurrentMap implementations can be used, the default is to use the ConcurrentHashMap
  */
 public interface MapFactory<K,T> {
     ConcurrentMap<K,T> create();

@@ -36,7 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by Jeromy Drake on 30/04/2016.
  */
-public class CacheImpl<K,T> implements Cache<K,T>, EventQueueListener<K,ListenerEvent<K,T>> {
+public class CacheImpl<K,T extends ImmutableEntry> implements Cache<K,T >, EventQueueListener<K,ListenerEvent<K,T>> {
 
     private final static Logger log = LoggerFactory.getLogger(CacheImpl.class);
 
@@ -52,7 +52,7 @@ public class CacheImpl<K,T> implements Cache<K,T>, EventQueueListener<K,Listener
 
     private volatile String fatalErrorText;
 
-    static public <K,T> Cache<K,T> createLocalCache(String name) {
+    static public <K,T extends ImmutableEntry> Cache<K,T> createLocalCache(String name) {
         // this creates a cache that has no publication ability, its main use would probably be in
         // users tests, but it might also be useful to distribute data within the same application
         CacheImpl<K,T> cache = new CacheImpl<K,T>(name);
@@ -60,13 +60,13 @@ public class CacheImpl<K,T> implements Cache<K,T>, EventQueueListener<K,Listener
         return cache;
     }
 
-    static public <K,T> Cache<K,T> createLocalCache(String name, ListenerEventQueueFactory<K, ListenerEvent<K,T>>  queueFactory, MapFactory<K,T> mapFactory) {
+    static public <K,T extends ImmutableEntry> Cache<K,T> createLocalCache(String name, ListenerEventQueueFactory<K, ListenerEvent<K,T>>  queueFactory, MapFactory<K,T> mapFactory) {
         CacheImpl<K,T> cache = new CacheImpl<K,T>(name, queueFactory, mapFactory);
         cache.start();
         return cache;
     }
 
-    static public <K,T> Cache<K,T> createLocalCache(String name, ListenerEventQueueFactory<K, ListenerEvent<K,T>>  queueFactory, MapFactory<K,T> mapFactory, ListenerEventFactory<K,T> listenerEventFactory) {
+    static public <K,T extends ImmutableEntry> Cache<K,T> createLocalCache(String name, ListenerEventQueueFactory<K, ListenerEvent<K,T>>  queueFactory, MapFactory<K,T> mapFactory, ListenerEventFactory<K,T> listenerEventFactory) {
         CacheImpl<K,T> cache = new CacheImpl<K,T>(name, queueFactory, mapFactory, listenerEventFactory);
         cache.start();
         return cache;

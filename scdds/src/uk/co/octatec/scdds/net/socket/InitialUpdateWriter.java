@@ -20,6 +20,8 @@ import uk.co.octatec.scdds.net.serialize.SerializerUtils;
 
 /**
  * Created by Jeromy Drake on 05/05/16
+ *
+ * This class is used internally by the server to write the 'initial update' to the network.
  */
 public class InitialUpdateWriter {
 

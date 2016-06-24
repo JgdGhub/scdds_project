@@ -1,5 +1,18 @@
 package uk.co.octatec.scdds.cache.subscribe;
+/*
+  SC/DDS - simple cached data distribution service
 
+  Copyright 2016 by Jeromy Drake
+
+  This program is free software; you may redistribute and/or modify it under
+  the terms of the GNU General Public License Version 2 as published by the
+  Free Software Foundation.
+
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  for complete details.
+*/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.cache.*;
@@ -9,10 +22,11 @@ import java.util.Map;
 
 /**
  * Created by Jeromy Drake on 05/05/16
+ *
+ * This is a cache as seen on the client-side.
  */
-// the only point of this claiss is to 'hide' the start() and getData() methods, just maing it available for
-// very specific use in the CacheSubscriber
-public class CacheImplClientSide<K,T> extends CacheImpl<K,T> {
+
+public class CacheImplClientSide<K,T extends ImmutableEntry> extends CacheImpl<K,T> {
 
     private final static Logger log = LoggerFactory.getLogger(CacheImplClientSide.class);
 
@@ -34,7 +48,7 @@ public class CacheImplClientSide<K,T> extends CacheImpl<K,T> {
 
     private volatile boolean netErrorState;
 
-    static public <K,T> Cache<K,T> createLocalCache(String name) {
+    static public <K,T extends ImmutableEntry> Cache<K,T> createLocalCache(String name) {
         // this creates a cache that is 'started', i.e. will notify listeners of updates
         // its main use is in tests
         CacheImplClientSide<K,T> cache = new CacheImplClientSide<K,T>(name);

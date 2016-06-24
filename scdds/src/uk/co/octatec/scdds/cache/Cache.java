@@ -18,7 +18,7 @@ import uk.co.octatec.scdds.cache.subscribe.ImmutableCache;
 /**
  * Created by Jeromy Drake on 30/04/2016.
  */
-public interface Cache<K,T> extends ImmutableCache<K,T> {
+public interface Cache<K ,T extends ImmutableEntry> extends ImmutableCache<K,T> {
     void notifyStale();
     void notifyUnStale();
 

@@ -13,6 +13,7 @@ package uk.co.octatec.scdds.instrumentation;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.publish.CacheFilter;
 import uk.co.octatec.scdds.cache.subscribe.*;
 import uk.co.octatec.scdds.net.registry.CacheLocator;
@@ -21,7 +22,7 @@ import uk.co.octatec.scdds.net.socket.ClientConnector;
 /**
  * Created by Jeromy Drake on 12/05/2016.
  */
-public class InstrumentedCacheSubscriberFactory<K,T> implements CacheSubscriberFactory<K,T> {
+public class InstrumentedCacheSubscriberFactory<K,T extends ImmutableEntry> implements CacheSubscriberFactory<K,T> {
 
     static final int MAX_RETRIES = 0;
 

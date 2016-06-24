@@ -13,10 +13,14 @@ package uk.co.octatec.scdds.cache;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import jdk.nashorn.internal.runtime.GlobalConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.ConditionalCompilation;
 import uk.co.octatec.scdds.GlobalDefaults;
+import uk.co.octatec.scdds.GlobalProperties;
+import uk.co.octatec.scdds.cache.info.CacheInfoDisplay;
+import uk.co.octatec.scdds.cache.info.CacheInfoDisplayFactory;
 import uk.co.octatec.scdds.cache.persistence.CacheLoader;
 import uk.co.octatec.scdds.cache.persistence.CacheLoaderPersisterFactory;
 import uk.co.octatec.scdds.cache.persistence.EntryPersister;
@@ -25,6 +29,7 @@ import uk.co.octatec.scdds.cache.publish.*;
 import uk.co.octatec.scdds.cache.publish.threading.Threader;
 import uk.co.octatec.scdds.cache.publish.threading.ThreaderFactory;
 import uk.co.octatec.scdds.cache.publish.threading.ThreaderFactoryImpl;
+import uk.co.octatec.scdds.net.html.HttpServerFactory;
 import uk.co.octatec.scdds.net.registry.CacheRegistrar;
 import uk.co.octatec.scdds.net.registry.CacheRegistrarImpl;
 import uk.co.octatec.scdds.net.serialize.SerializerFactory;
@@ -39,7 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Jeromy Drake on 02/05/2016.
  */
-public class PublishingCacheBuilder<K,T> {
+public class PublishingCacheBuilder<K,T extends ImmutableEntry> {
 
     private final static Logger log = LoggerFactory.getLogger(PublishingCacheBuilder.class);
 
@@ -52,6 +57,7 @@ public class PublishingCacheBuilder<K,T> {
     private final GeneralRequestHandlerFactory  generalRequestHandlerFactory;
     private final ListenerEventFactory<K,T> listenerEventFactory;
     private final ThreaderFactory threaderFactory;
+    private final CacheInfoDisplayFactory cacheInfoDisplayFactory;
 
     private static ConcurrentHashMap<Integer, CachePublisher> liveCacheList = new ConcurrentHashMap<Integer, CachePublisher>();
 
@@ -66,6 +72,7 @@ public class PublishingCacheBuilder<K,T> {
         generalRequestHandlerFactory = new  GeneralRequestHandlerFactoryImpl();
         listenerEventFactory = new ListenerEventFactoryDefaultImpl<>();
         this.threaderFactory = GlobalDefaults.threaderFactory;
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public PublishingCacheBuilder(List<InetSocketAddress> registries, SerializerFactory<K,T> serializerFactory) {
@@ -78,6 +85,7 @@ public class PublishingCacheBuilder<K,T> {
         generalRequestHandlerFactory = new  GeneralRequestHandlerFactoryImpl();
         listenerEventFactory = new ListenerEventFactoryDefaultImpl<>();
         this.threaderFactory = GlobalDefaults.threaderFactory;
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public PublishingCacheBuilder(List<InetSocketAddress> registries, CacheLoaderPersisterFactory<K,T> cacheLoaderPersisterFactory) {
@@ -90,6 +98,7 @@ public class PublishingCacheBuilder<K,T> {
         generalRequestHandlerFactory = new  GeneralRequestHandlerFactoryImpl();
         listenerEventFactory = new ListenerEventFactoryDefaultImpl<>();
         threaderFactory = GlobalDefaults.threaderFactory;
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public PublishingCacheBuilder(List<InetSocketAddress> registries, SerializerFactory<K,T> serializerFactory, CacheLoaderPersisterFactory<K,T> cacheLoaderPersisterFactory) {
@@ -103,6 +112,7 @@ public class PublishingCacheBuilder<K,T> {
         generalRequestHandlerFactory = new  GeneralRequestHandlerFactoryImpl();
         listenerEventFactory = new ListenerEventFactoryDefaultImpl<>();
         threaderFactory = GlobalDefaults.threaderFactory;
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public PublishingCacheBuilder(List<InetSocketAddress> registries,
@@ -124,6 +134,7 @@ public class PublishingCacheBuilder<K,T> {
         generalRequestHandlerFactory = new  GeneralRequestHandlerFactoryImpl();
         listenerEventFactory = new ListenerEventFactoryDefaultImpl<>();
         threaderFactory = GlobalDefaults.threaderFactory;
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
 
@@ -135,7 +146,8 @@ public class PublishingCacheBuilder<K,T> {
                                   CachePublisherFactory<K,T>  cachePublisherFactory,
                                   ListenerEventFactory<K,T>  listenerEventFactory,
                                   ThreaderFactory threaderFactory,
-                                  GeneralRequestHandlerFactory generalRequestHandlerFactory
+                                  GeneralRequestHandlerFactory generalRequestHandlerFactory,
+                                  CacheInfoDisplayFactory cacheInfoDisplayFactory
 
 
     ) {
@@ -148,6 +160,7 @@ public class PublishingCacheBuilder<K,T> {
         this.listenerEventFactory  = listenerEventFactory==null ? new ListenerEventFactoryDefaultImpl<K,T>():listenerEventFactory;
         this.threaderFactory = threaderFactory == null ? GlobalDefaults.threaderFactory :  threaderFactory;
         this.generalRequestHandlerFactory = generalRequestHandlerFactory==null ? new  GeneralRequestHandlerFactoryImpl() : generalRequestHandlerFactory;
+        this.cacheInfoDisplayFactory = cacheInfoDisplayFactory==null? new HttpServerFactory() : cacheInfoDisplayFactory;
     }
 
     public Cache<K,T> build(String cacheName) {
@@ -164,7 +177,12 @@ public class PublishingCacheBuilder<K,T> {
 
             // load the cache with its persistent data, there my be no persistent data to load,
             // the default cacheLoader is a No-Op implementation
+            log.info("using cacheLoaderPersisterFactory [{}]", cacheLoaderPersisterFactory.getClass().getName());
             CacheLoader<K,T> cacheLoader = cacheLoaderPersisterFactory.createCacheLoader(cacheName);
+            if( cacheLoader == null ) {
+                // the cacheLoaderPersisterFactory is free to return nulls for either the Loader or Persister
+                cacheLoader = (new NoOpCacheLoaderPersisterFactory<K,T>()).createCacheLoader(cacheName);
+            }
             cacheLoader.open();
             cacheLoader.loadCache(cacheImpl);
             cacheLoader.close();
@@ -173,6 +191,10 @@ public class PublishingCacheBuilder<K,T> {
             // set the cache entryPersister, there may be no persistence require, the default
             // entryPersister is a No-Op implementation
             EntryPersister<K,T> entryPersister = cacheLoaderPersisterFactory.createEntryPersister(cacheName);
+            if( entryPersister == null ) {
+                // the cacheLoaderPersisterFactory is free to return nulls for either the Loader or Persister
+                entryPersister = (new NoOpCacheLoaderPersisterFactory<K,T>()).createEntryPersister(cacheName);
+            }
             entryPersister.open();
             cacheImpl.setEntryPersister(entryPersister);
 
@@ -189,9 +211,17 @@ public class PublishingCacheBuilder<K,T> {
 
             log.info("cache [{}] will receive subscriptions on port [{}]", cacheName, port);
 
+            CacheInfoDisplay cacheInfoDisplay = null;
+            int httpPort = 0;
+            if(GlobalProperties.exposeHttpServer) {
+                // a basic http server to display active caches and the data in them
+                cacheInfoDisplay = cacheInfoDisplayFactory.get();
+                httpPort = cacheInfoDisplay.getHttpPort();
+            }
+
             CacheRegistrar registrar = new CacheRegistrarImpl(registries);
             String hostname = InetAddress.getLocalHost().getHostName();
-            registrar.registerCache(cacheName, hostname, port, registarRetries);
+            registrar.registerCache(cacheName, hostname, port, httpPort, registarRetries);
 
             cachePublisher.start();
 
@@ -201,6 +231,11 @@ public class PublishingCacheBuilder<K,T> {
 
             liveCacheList.put(System.identityHashCode(cacheImpl), cachePublisher);
 
+            if( cacheInfoDisplay != null ) {
+                cacheInfoDisplay.addCache(cacheImpl);
+                log.info("enabled server cacheInfoDisplay port=[{}] cache-name=[{}]", httpPort, cacheImpl.getName());
+            }
+
             return cacheImpl;
         }
         catch( Throwable t) {
@@ -209,7 +244,7 @@ public class PublishingCacheBuilder<K,T> {
         }
     }
 
-    public static <K,T> void stop(Cache<K,T> cache) {
+    public static <K,T extends ImmutableEntry> void stop(Cache<K,T> cache) {
         try {
             log.info("stopping cache [{}]", cache.getName());
             CachePublisher cachePublisher = liveCacheList.remove(System.identityHashCode(cache));

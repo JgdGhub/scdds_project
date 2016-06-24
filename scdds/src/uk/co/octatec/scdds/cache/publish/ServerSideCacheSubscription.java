@@ -35,6 +35,8 @@ import static uk.co.octatec.scdds.ConditionalCompilation._LOG_LATENCY;
 
 /**
  * Created by Private on 30/04/2016.
+ *
+ * This is used to keep track of subscriptions in the server.
  */
 public final class ServerSideCacheSubscription<K,T> {
 

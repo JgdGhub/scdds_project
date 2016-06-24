@@ -15,6 +15,8 @@ package uk.co.octatec.scdds.cache.publish;
 */
 /**
  * Created by Jeromy Drake on 04/05/16
+ *
+ * The general request handler receives 'heartbeat' requests and 'close' requests from clients
  */
 public class GeneralRequestHandlerFactoryImpl implements GeneralRequestHandlerFactory {
 

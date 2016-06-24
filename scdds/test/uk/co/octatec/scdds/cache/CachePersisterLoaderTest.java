@@ -70,7 +70,7 @@ public class CachePersisterLoaderTest {
         Assert.assertNotNull("EntryPersister created", persister);
 
         String fname1 = ((ObjectDataStoreCacheLoader<String, SimpleData>) loader).getFileName();
-        String fname2 = ((ObjectDataStoreEntryPersisterImpl<String, SimpleData>) persister).getFileName();
+        String fname2 = ((ObjectDataStoreEntryPersister<String, SimpleData>) persister).getFileName();
         log.info("file-names et [{}] [{}]", fname1, fname2);
         Assert.assertNotNull(" CacheLoader filename set", fname1);
         Assert.assertNotNull("EntryPersister filename set", fname2);
@@ -93,7 +93,7 @@ public class CachePersisterLoaderTest {
         // test we can write data to the data-store
 
         CacheImpl<String,SimpleData> cache = new   CacheImpl<String,SimpleData>();
-        ObjectDataStoreEntryPersisterImpl<String,SimpleData> persister = new  ObjectDataStoreEntryPersisterImpl<>(pathNameTmp, SUFFIX);
+        ObjectDataStoreEntryPersister<String,SimpleData> persister = new ObjectDataStoreEntryPersister<>(pathNameTmp, SUFFIX);
         File fTmp = new File(persister.getFileName());
         if( fTmp.exists() ) {
             fTmp.delete();

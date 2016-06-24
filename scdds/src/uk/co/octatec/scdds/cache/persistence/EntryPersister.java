@@ -13,10 +13,13 @@ package uk.co.octatec.scdds.cache.persistence;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+
+import uk.co.octatec.scdds.cache.ImmutableEntry;
+
 /**
  * Created by Jeromy Drake on 02/05/2016.
  */
-public interface EntryPersister<K,T> {
+public interface EntryPersister<K,T extends ImmutableEntry> {
     void open();
     void store(K key, T value);
     void markDeleted(K key);

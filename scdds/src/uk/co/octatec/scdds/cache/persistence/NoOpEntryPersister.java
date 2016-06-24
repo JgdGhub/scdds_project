@@ -13,13 +13,21 @@ package uk.co.octatec.scdds.cache.persistence;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
+
 /**
  * Created by Jeromy Drake on 02/05/2016.
  */
-public final class NoOpEntryPersister<K,T> implements  EntryPersister<K,T>{
+public final class NoOpEntryPersister<K,T extends ImmutableEntry> implements  EntryPersister<K,T>{
+
+    private final static Logger log = LoggerFactory.getLogger(NoOpEntryPersister.class);
 
     @Override
     public void open() {
+        log.info("NoOpEntryPersister - open");
     }
 
     @Override
@@ -28,10 +36,10 @@ public final class NoOpEntryPersister<K,T> implements  EntryPersister<K,T>{
 
     @Override
     public void markDeleted(K key) {
-
     }
 
     @Override
     public void close() {
+        log.info("NoOpEntryPersister - close");
     }
 }

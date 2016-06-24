@@ -16,10 +16,14 @@ package uk.co.octatec.scdds.cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.ConditionalCompilation;
+import uk.co.octatec.scdds.GlobalProperties;
+import uk.co.octatec.scdds.cache.info.CacheInfoDisplay;
+import uk.co.octatec.scdds.cache.info.CacheInfoDisplayFactory;
 import uk.co.octatec.scdds.cache.publish.CacheFilter;
 import uk.co.octatec.scdds.cache.publish.MapFactory;
 import uk.co.octatec.scdds.cache.publish.MapFactoryDefaultImpl;
 import uk.co.octatec.scdds.cache.subscribe.*;
+import uk.co.octatec.scdds.net.html.HttpServerFactory;
 import uk.co.octatec.scdds.net.registry.CacheLocator;
 import uk.co.octatec.scdds.net.registry.CacheLocatorImpl;
 
@@ -30,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Jeromy Drake on 04/05/2016.
  */
-public class SubscriptionCacheBuilder<K, T> {
+public class SubscriptionCacheBuilder<K, T extends ImmutableEntry> {
 
     private final static Logger log = LoggerFactory.getLogger(SubscriptionCacheBuilder.class);
 
@@ -41,6 +45,7 @@ public class SubscriptionCacheBuilder<K, T> {
     final private MapFactory<K, T> mapFactory;
     final private CacheLocator locator;
     final private ListenerEventFactory<K,T> listenerEventFactory;
+    final private CacheInfoDisplayFactory cacheInfoDisplayFactory;
 
     final static private ConcurrentHashMap<Integer,CacheSubscriber> subscriptions = new ConcurrentHashMap<>();
 
@@ -55,13 +60,15 @@ public class SubscriptionCacheBuilder<K, T> {
         this.cacheSubscriberFactory = cacheSubscriberFactory==null ? new CacheSubscriberFactoryDefaultImpl<K,T>() : cacheSubscriberFactory;
         this.mapFactory = mapFactory==null ? new MapFactoryDefaultImpl<K,T>() : mapFactory;
         this.listenerEventFactory = new ListenerEventFactoryDefaultImpl<K,T>();
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public SubscriptionCacheBuilder(List<InetSocketAddress> registries,
                                     ListenerEventQueueFactory<K, ListenerEvent<K, T>> listenerEventQueueFactory,
                                     CacheSubscriberFactory<K, T> cacheSubscriberFactory,
                                     MapFactory<K, T> mapFactory,
-                                    ListenerEventFactory<K,T> listenerEventFactory) {
+                                    ListenerEventFactory<K,T> listenerEventFactory,
+                                    CacheInfoDisplayFactory cacheInfoDisplayFactory) {
 
         locator = new CacheLocatorImpl(registries);
         this.listenerEventQueueFactory = defaultListenerEventQueueFactory(listenerEventQueueFactory);
@@ -69,6 +76,7 @@ public class SubscriptionCacheBuilder<K, T> {
         this.cacheSubscriberFactory = cacheSubscriberFactory==null ? new CacheSubscriberFactoryDefaultImpl<K,T>() : cacheSubscriberFactory;
         this.mapFactory = mapFactory==null ? new MapFactoryDefaultImpl<K,T>() : mapFactory;
         this.listenerEventFactory = listenerEventFactory==null ? new ListenerEventFactoryDefaultImpl<K,T>() : listenerEventFactory;
+        this.cacheInfoDisplayFactory = cacheInfoDisplayFactory==null? new HttpServerFactory() : cacheInfoDisplayFactory;
     }
 
     public SubscriptionCacheBuilder(CacheLocator locator,
@@ -82,6 +90,7 @@ public class SubscriptionCacheBuilder<K, T> {
         this.cacheSubscriberFactory = cacheSubscriberFactory==null ? new CacheSubscriberFactoryDefaultImpl<K,T>() : cacheSubscriberFactory;
         this.mapFactory = mapFactory==null ? new MapFactoryDefaultImpl<K,T>() : mapFactory;
         this.listenerEventFactory = new ListenerEventFactoryDefaultImpl<K,T>();
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public SubscriptionCacheBuilder(List<InetSocketAddress> registries) {
@@ -90,6 +99,7 @@ public class SubscriptionCacheBuilder<K, T> {
         this.cacheSubscriberFactory = new CacheSubscriberFactoryDefaultImpl<K,T>();
         this.mapFactory = new MapFactoryDefaultImpl<>();
         this.listenerEventFactory = new ListenerEventFactoryDefaultImpl<K,T>();
+        this.cacheInfoDisplayFactory = new HttpServerFactory();
     }
 
     public ImmutableCache<K, T> subscribe(String cacheName) {
@@ -119,6 +129,12 @@ public class SubscriptionCacheBuilder<K, T> {
         Integer key = System.identityHashCode(cacheImpl);
         log.info("add subscription [{}] [{}]", key, cacheSubscriber);
         subscriptions.put(key, cacheSubscriber);
+
+        if(GlobalProperties.exposeHttpServer ) {
+            CacheInfoDisplay cacheInfoDisplay = cacheInfoDisplayFactory.get();
+            log.info("enabled client cacheInfoDisplay port=[{}] cache-name=[{}]", cacheInfoDisplay.getHttpPort(), cacheImpl.getName());
+            cacheInfoDisplay.addCache(cacheImpl);
+        }
 
         return cacheImpl;
     }

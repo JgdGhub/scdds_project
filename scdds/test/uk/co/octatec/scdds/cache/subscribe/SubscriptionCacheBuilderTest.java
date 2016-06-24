@@ -14,9 +14,12 @@ package uk.co.octatec.scdds.cache.subscribe;
   for complete details.
 */
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.GlobalProperties;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.SubscriptionCacheBuilder;
 import uk.co.octatec.scdds.cache.publish.CacheFilter;
 import uk.co.octatec.scdds.cache.publish.PropertyUtils;
@@ -41,13 +44,18 @@ public class SubscriptionCacheBuilderTest {
 
     private final static Logger log = LoggerFactory.getLogger(SubscriptionCacheBuilderTest.class);
 
-    class MyCacheSubscriberFactory<K, T> implements CacheSubscriberFactory<K, T> {
+    class MyCacheSubscriberFactory<K, T extends ImmutableEntry> implements CacheSubscriberFactory<K, T> {
         CacheSubscriberImpl<K, T> subscriber;
         @Override
         public CacheSubscriber<K, T> create(CacheImplClientSide<K, T> cache, CacheLocator locator, CacheFilter<K, T> filter, String filterArg, InitialUpdateReaderFactory<K, T> initialUpdateReaderFactory) {
             subscriber = new CacheSubscriberImpl<K, T>(cache, locator, filter, filterArg, 1, initialUpdateReaderFactory);
             return subscriber;
         }
+    }
+
+    @BeforeClass
+    public static void setup() {
+        GlobalProperties.exposeHttpServer = false;
     }
 
     @Test
