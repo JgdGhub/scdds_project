@@ -1,6 +1,7 @@
-When you start the IntelliJ project, you will probably see error messages like "Git executable problem", thats
+When you start the IntelliJ project, you will probably see error messages like "Git executable problem", that's
 just related to where the IntelliJ project expects git to be installed and can be ignored, it won't stop
-you building the code.
+you building the code.  IntelliJ Community Edition 15.0.4 was used to create this projects, but earlier
+versions should work equally well, it has been tested using 10.5.2 and worked fine.
 
 Once the IntelliJ project is downloaded, the easiest thing to do is just run the tests, that will
 build anything that needs building. All tests are expected to pass.
