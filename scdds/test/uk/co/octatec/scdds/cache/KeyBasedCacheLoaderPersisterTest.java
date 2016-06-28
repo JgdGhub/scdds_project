@@ -21,9 +21,6 @@ import uk.co.octatec.scdds.cache.persistence.*;
 import uk.co.octatec.scdds.utilities.SimpleData;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Jeromy Drake on 20/06/2016.
@@ -38,9 +35,9 @@ public class KeyBasedCacheLoaderPersisterTest {
     public void factoryTest() {
         log.info("### factoryTest");
         KeyBasedCacheLoaderPersisterFactory<String,SimpleData> factory = new KeyBasedCacheLoaderPersisterFactory<>();
-        CacheLoader<String,SimpleData> cacheLoader = factory.createCacheLoader("Test_Cache");
+        CacheLoader<String,SimpleData> cacheLoader = factory.createCacheLoader("test/Test_Cache");
         Assert.assertNotNull("cacheLoader not null", cacheLoader);
-        EntryPersister<String,SimpleData> entryPersister = factory.createEntryPersister("Test_Cache");
+        EntryPersister<String,SimpleData> entryPersister = factory.createEntryPersister("test/Test_Cache");
         Assert.assertNotNull("entryPersister not null", entryPersister);
     }
 
@@ -62,8 +59,9 @@ public class KeyBasedCacheLoaderPersisterTest {
         log.info("### persisterSubTest");
         log.info("cwd=[{}]", System.getProperty("user.dir"));
 
-        KeyBasedEntryPersister<String,SimpleData> entryPersister =  new KeyBasedEntryPersister<>("Test_Cache", "YYYYMMDD");
+        KeyBasedEntryPersister<String,SimpleData> entryPersister =  new KeyBasedEntryPersister<>("test/Test_Cache", "YYYYMMDD");
         File dir = new File(entryPersister.getDataDir());
+        log.info("check data dir[{}]", entryPersister.getDataDir());
         if( dir.exists() && !dir.isDirectory()) {
             log.error("DIR-NAME EXSISTS [{}] BUT IS NOT A DIRECTORY", entryPersister.getDataDir());
             Assert.assertTrue("bad data dir - dir-name exists but is not a directory", false);
@@ -107,8 +105,9 @@ public class KeyBasedCacheLoaderPersisterTest {
         log.info("### cacheLoaderSubTest");
         log.info("cwd=[{}]", System.getProperty("user.dir"));
 
-        KeyBasedCacheLoader<String,SimpleData> cacheLoader =  new KeyBasedCacheLoader<String,SimpleData>("Test_Cache", "YYYYMMDD");
+        KeyBasedCacheLoader<String,SimpleData> cacheLoader =  new KeyBasedCacheLoader<String,SimpleData>("test/Test_Cache", "YYYYMMDD");
         File dir = new File(cacheLoader.getDataDir());
+        log.info("check data dir[{}]", cacheLoader.getDataDir());
         if( dir.exists() && !dir.isDirectory()) {
             log.error("DIR-NAME EXSISTS [{}] BUT IS NOT A DIRECTPRY", cacheLoader.getDataDir());
             Assert.assertTrue("bad data dir - dir-name exists but is not a directory", false);
@@ -157,7 +156,8 @@ public class KeyBasedCacheLoaderPersisterTest {
         log.info("### cachePersisterDeleteSubTest");
         log.info("cwd=[{}]", System.getProperty("user.dir"));
 
-        KeyBasedEntryPersister<String,SimpleData> entryPersister =  new KeyBasedEntryPersister<>("Test_Cache", "YYYYMMDD");
+        KeyBasedEntryPersister<String,SimpleData> entryPersister =  new KeyBasedEntryPersister<>("test/Test_Cache", "YYYYMMDD");
+        log.info("check data dir[{}]", entryPersister.getDataDir());
         File dir = new File(entryPersister.getDataDir());
         if( dir.exists() && !dir.isDirectory()) {
             log.error("DIR-NAME EXSISTS [{}] BUT IS NOT A DIRECTORY", entryPersister.getDataDir());
