@@ -76,7 +76,7 @@ public class Server {
             for(int i = 1; i<=1000; i++) {
                 String key = "data_"+i;
                 cache.put(key, new Data(i, information));
-                Thread.sleep(0);
+                Thread.sleep(1);
             }
             Thread.sleep(10);
         }

@@ -34,15 +34,15 @@ public class DataListener implements CacheListener<String, Data>{
     private long loopStartTime;
     private double updateCount;
 
-    private final boolean errorOnOdId;
+    private final boolean errorOnOddId;
 
     private Map<String, Long> prevTimestamps = new HashMap<>();
 
     public DataListener() {
-        this.errorOnOdId = false;
+        this.errorOnOddId = false;
     }
     public DataListener(boolean errorOnOdId) {
-        this.errorOnOdId = errorOnOdId;
+        this.errorOnOddId = errorOnOdId;
     }
 
     @Override
@@ -67,8 +67,8 @@ public class DataListener implements CacheListener<String, Data>{
             }
         }
         prevTimestamps.put(key, timestamp);
-        log.info("onUpdate key=[{}] data=[{}] latency={} ms (errorOnOdId={})", data, latency, errorOnOdId);
-        if( errorOnOdId && (data.getId()%2) != 0 ) {
+        log.info("onUpdate key=[{}] data=[{}] latency={} ms (errorOnOddId={})", key, data, latency, errorOnOddId);
+        if( errorOnOddId && (data.getId()%2) != 0 ) {
             // output an error message if we get an ODD-ID, the expectation is that the client is using a filter
             log.error("\r\n**** ERROR FROM FILTER, GOT ODD-ID IN CLIENT {} ****\r\n", data.getId());
         }
