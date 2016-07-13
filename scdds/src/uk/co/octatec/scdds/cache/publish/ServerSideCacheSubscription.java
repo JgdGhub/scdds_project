@@ -19,6 +19,7 @@ import static uk.co.octatec.scdds.ConditionalCompilation._DBG;
 
 import uk.co.octatec.scdds.GlobalDefaults;
 import uk.co.octatec.scdds.GlobalProperties;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.publish.threading.Threader;
 import uk.co.octatec.scdds.net.serialize.Serializer;
 import uk.co.octatec.scdds.net.socket.BlockIO;
@@ -38,7 +39,7 @@ import static uk.co.octatec.scdds.ConditionalCompilation._LOG_LATENCY;
  *
  * This is used to keep track of subscriptions in the server.
  */
-public final class ServerSideCacheSubscription<K,T> {
+public final class ServerSideCacheSubscription<K,T extends ImmutableEntry> {
 
     private final Logger log = LoggerFactory.getLogger(ServerSideCacheSubscription.class);
 

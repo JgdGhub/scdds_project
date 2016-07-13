@@ -19,7 +19,7 @@ import uk.co.octatec.scdds.queue.Event;
 /**
  * Created by Jeromy Drake on 30/04/2016.
  */
-public class ListenerEvent<K,T> implements Event<K> {
+public class ListenerEvent<K,T extends ImmutableEntry> implements Event<K> {
 
     enum Action {active, update, remove, initialUpdate, stale, publisherInitialUpdate, fatal}
 

@@ -16,6 +16,6 @@ package uk.co.octatec.scdds.cache;
 /**
  * Created by Jeromy Drake on 07/05/16
  */
-public interface ListenerEventFactory<K,T> {
+public interface ListenerEventFactory<K,T extends ImmutableEntry> {
     ListenerEvent<K,T> create();
 }

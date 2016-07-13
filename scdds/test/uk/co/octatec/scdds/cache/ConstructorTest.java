@@ -72,7 +72,7 @@ public class ConstructorTest {
         }
     }
 
-    private static class  MyListenerEventFactory<K,T> implements ListenerEventFactory<K,T> {
+    private static class  MyListenerEventFactory<K,T extends ImmutableEntry> implements ListenerEventFactory<K,T> {
         ListenerEventFactoryDefaultImpl<K,T> delegate = new ListenerEventFactoryDefaultImpl<>();
         volatile boolean used;
         @Override

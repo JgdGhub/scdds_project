@@ -31,6 +31,7 @@ import uk.co.octatec.scdds.instrumentation.InstrumentedCachePublisherFactory;
 import uk.co.octatec.scdds.instrumentation.InstrumentedCacheSubscriberFactory;
 import uk.co.octatec.scdds.net.registry.Registry;
 import uk.co.octatec.scdds.net.registry.RegistryServer;
+import uk.co.octatec.scdds.net.router.Republisher;
 import uk.co.octatec.scdds.utilities.AwaitParams;
 import uk.co.octatec.scdds.utilities.EvenSimpleDataFilter;
 import uk.co.octatec.scdds.utilities.SimpleCacheListener;
@@ -41,6 +42,7 @@ import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by Jeromy Drake on 07/05/16
@@ -1228,6 +1230,107 @@ public class IntegrationTest {
         Assert.assertEquals("client-cache-[1] has 3 items", 4, cli1.clientCache.size());
         Assert.assertEquals("client-cache-[2] has 3 items", 3, cli2.clientCache.size());
         Assert.assertEquals("client-cache-[3] has 3 items", 4, cli3.clientCache.size());
+
+        // Tidy Up
+
+        RegistryServer.stopInThread(registry);
+    }
+
+    @Test
+    public void routerTest() throws Exception{
+
+        // NB: the router is an optional component that can be used to handle the (re)publication of
+        // multiple caches to multiple subscribers
+
+        log.info("## routerTest");
+
+        int registryPort = getFreePort();
+        List<InetSocketAddress> registries = new ArrayList<>();
+        registries.add(new InetSocketAddress("localhost", registryPort));
+
+        String cacheName = "RouterTestCache";
+
+        RegistryServer registry = null;
+        log.info("*** START THE REGISTRY registryPort={} ***", registryPort);
+        registry = RegistryServer.startInThread(registryPort);
+        // the clients and servers can be freely moved around to any network location,
+        // the only requirement is that the registry(s) be in a known location on a known port
+
+        // create the server cache
+
+        ServerSideCacheStarter srv = ServerSideCacheStarter.start(cacheName, registries);
+
+        srv.awaitStartup(); // registry and server has been started so this should return straight away
+        // check the registry to see if the entry is there
+        Registry.Entry entry = registry.find(cacheName);
+        log.info("registry-entry found [{}]", entry);
+        Assert.assertNotNull("registry-entry found", entry);
+
+        log.info("*** START THE ROUTER registryPort={} ***", registryPort);
+
+        Properties properties = new Properties();
+        String registriesStr = "localhost:"+registryPort;
+        String inRegistriesProp = "republish."+cacheName+".in-registries";
+        properties.setProperty(inRegistriesProp, registriesStr);
+        String outRegistriesProp = "republish."+cacheName+".out-registries";
+        properties.setProperty(outRegistriesProp, registriesStr);
+
+        log.info("set properties {}", properties);
+        Republisher republisher = new   Republisher(cacheName, properties);
+        republisher.start();
+
+        String routerCacheName =  "R."+cacheName;
+        log.info("*** START CLIENT-1 registryPort={} routerCacheName=[{}] ***", registryPort, routerCacheName);
+        ClientSideCacheStarter cli1 = ClientSideCacheStarter.start(routerCacheName, registries);
+        cli1.awaitStartup();
+
+        log.info("*** START CLIENT-2 registryPort={} routerCacheName=[{}] ***", registryPort, routerCacheName);
+        ClientSideCacheStarter cli2 = ClientSideCacheStarter.start(routerCacheName, registries);
+        cli2.awaitStartup();
+
+        srv.serverCache.put("S2", new SimpleData("S2", 2));
+
+        AwaitParams.awaitCacheSizeGte(cli1.clientCache, 2);
+        AwaitParams.awaitCacheSizeGte(cli2.clientCache, 2);
+                // the startup for the server automatically adds an item 'S1' and we have just added 'S2'
+
+        log.info("client-1 cache ["+cli1.clientCache.getName()+"] keys {} ", cli1.clientCache.keySet());
+        Assert.assertEquals("client-1  cache has item", cli1.clientCache.size(), 2);
+
+        log.info("client-2 cache ["+cli2.clientCache.getName()+"] keys {} ", cli2.clientCache.keySet());
+        Assert.assertEquals("client-2  cache has item", cli2.clientCache.size(), 2);
+
+        Assert.assertEquals("client-1 subscribed to correct cache",  cli1.clientCache.getName(), routerCacheName);
+        Assert.assertEquals("client-1 subscribed to correct cache",  cli2.clientCache.getName(), routerCacheName);
+
+        SimpleData s1 = cli1.clientCache.get("S1");
+        Assert.assertNotNull("S1 Item in client-1 Cache", s1);
+        SimpleData s2 = cli1.clientCache.get("S2");
+        Assert.assertNotNull("S2 Item in client-1 Cache", s2);
+
+        s1 = cli2.clientCache.get("S1");
+        Assert.assertNotNull("S1 Item in client-2 Cache", s1);
+        s2 = cli2.clientCache.get("S2");
+        Assert.assertNotNull("S2 Item in client-2 Cache", s2);
+
+
+        log.info("*** CLIENT-1 UNSUBSCRIBES FROM ROUTER");
+
+        SubscriptionCacheBuilder.unSubscribe(cli1.clientCache);
+
+        srv.serverCache.put("S3", new SimpleData("S3", 2));
+
+        AwaitParams.awaitCacheSizeGte(cli2.clientCache, 3);
+        log.info("client-2 cache ["+cli2.clientCache.getName()+"] keys {} ", cli2.clientCache.keySet());
+        Assert.assertEquals("client-2  cache has item", cli2.clientCache.size(), 3);
+
+        SimpleData s3 = cli2.clientCache.get("S3");
+        Assert.assertNotNull("S3 Item in client-2 Cache", s3);
+
+        s3 = cli1.clientCache.get("S3");
+        Assert.assertNull("S3 Item NOT in client-1 Cache", s3);
+
+
 
         // Tidy Up
 

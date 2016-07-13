@@ -306,7 +306,7 @@ public class PublishingCacheBuilder<K,T extends ImmutableEntry> {
         return listenerEventFactory;
     }
 
-    static  <K,T> ListenerEventQueueFactory<K, ListenerEvent<K,T>>  defaultListenerEventQueueFactory(ListenerEventQueueFactory<K, ListenerEvent<K,T>>  theFactory) {
+    static  <K,T extends ImmutableEntry> ListenerEventQueueFactory<K, ListenerEvent<K,T>>  defaultListenerEventQueueFactory(ListenerEventQueueFactory<K, ListenerEvent<K,T>>  theFactory) {
         if( theFactory != null ) {
             return theFactory;
         }

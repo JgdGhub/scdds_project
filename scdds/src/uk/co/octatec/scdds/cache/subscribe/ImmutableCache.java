@@ -14,6 +14,7 @@ package uk.co.octatec.scdds.cache.subscribe;
   for complete details.
 */
 import uk.co.octatec.scdds.cache.CacheListener;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 
 import java.util.Collection;
 import java.util.Map;
@@ -27,7 +28,7 @@ import java.util.Set;
  * are controlled by the remote publisher.
  */
 
-public interface ImmutableCache<K,T> {
+public interface ImmutableCache<K,T extends ImmutableEntry> {
     T get(K key);
     Set<K> keySet();
     int size();

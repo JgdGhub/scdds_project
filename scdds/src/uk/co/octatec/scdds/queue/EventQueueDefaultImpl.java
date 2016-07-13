@@ -20,6 +20,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by Jeromy Drake on 30/04/2016.
+ *
+ * This is the default queue implementation used to process items in the cache, i.e. send the item for publishing
+ * and notify listeners of the 'cache event'. Note: the act of publishing an item will pass it to a second queue attached
+ * to a thread-pool in order to service multiple remote clients on different threads. Configuration options allow both queues
+ * to be eliminated, the first by passing a ListenerNoneQueuingEventQueueFactory to the PublishingCacheBuilder, and the second
+ * by setting GlobalDefaults.numberOfNetworkSendThreads = 0. (NB that's zero and not 1, if it is set to 1, a queue will still be
+ * used passing the update to a single sending thread). Eliminating the queues might be useful if the publihers sole task is to
+ * publish the data and it has no local listeners and also if the number of subscribers is low (the number of subscribers might
+ * be only one if a 'router' was being used (See class Router)
+ *
  */
 public class EventQueueDefaultImpl<K, E extends Event<K>> extends AbstractEventQueue<K, E> implements EventQueue<K,E> {
 

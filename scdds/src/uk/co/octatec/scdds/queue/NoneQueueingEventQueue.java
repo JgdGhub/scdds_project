@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory;
  * Created by Jeromy Drake on 08/06/2016.
  *
  * This implementation will eliminate the queue between putting an item in the cache and it being published (and
- * the listeners being notified). It might be useful in a high volume publisher that doesn't have any listeners
- * (if the cache had listeners it might be risky to use this as the actions of listeners could delay the next publication)
+ * the listeners being notified). It might be useful in a high volume publisher that doesn't have any local listeners
+ * (if the cache had local listeners it might be risky to use this as the actions of the local listeners could delay the next
+ * publication)
  */
 public class NoneQueueingEventQueue<K, E extends Event<K>> implements EventQueue<K,E> {
 

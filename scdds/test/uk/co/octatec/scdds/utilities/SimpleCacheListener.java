@@ -16,6 +16,7 @@ package uk.co.octatec.scdds.utilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.octatec.scdds.cache.CacheListener;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.subscribe.ImmutableCache;
 
 import java.util.HashMap;
@@ -25,7 +26,7 @@ import java.util.Set;
 /**
  * Created by Jeromy Drake on 06/05/16
  */
-public class SimpleCacheListener<K, T> implements CacheListener<K, T> {
+public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheListener<K, T> {
 
     private final static Logger log = LoggerFactory.getLogger(SimpleCacheListener.class);
 

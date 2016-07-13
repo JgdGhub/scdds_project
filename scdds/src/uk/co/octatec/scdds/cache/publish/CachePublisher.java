@@ -13,6 +13,7 @@ package uk.co.octatec.scdds.cache.publish;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.ListenerEvent;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.Map;
 /**
  * Created by Jeromy Drake on 03/05/2016.
  */
-public interface CachePublisher<K,T>  {
+public interface CachePublisher<K,T extends ImmutableEntry>  {
 
     String ARG_SESSION_ID = "session-id";
     String ARG_FILTER = "filter";

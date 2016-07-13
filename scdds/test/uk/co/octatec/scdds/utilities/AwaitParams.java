@@ -13,6 +13,7 @@ package uk.co.octatec.scdds.utilities;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.subscribe.CacheSubscriberImpl;
 import uk.co.octatec.scdds.cache.subscribe.ImmutableCache;
 
@@ -23,7 +24,7 @@ public class AwaitParams {
     public static final int AWAIT_SLEEP_TIME = 20;
     public static final int AWAIT_LOOP_COUNT = 100;
 
-    public static<K,T>  void awaitCacheSizeGte(ImmutableCache<K,T> cache, int n) throws  InterruptedException{
+    public static<K,T extends ImmutableEntry>  void awaitCacheSizeGte(ImmutableCache<K,T> cache, int n) throws  InterruptedException{
         for(int i=0; i<AWAIT_LOOP_COUNT; i++) {
             if( cache.size() >= n ) {
                 break;
@@ -32,7 +33,7 @@ public class AwaitParams {
         }
     }
 
-    public static<K,T>  void awaitCacheStaleValue(ImmutableCache<K,T> cache, boolean requiredValue) throws  InterruptedException{
+    public static<K,T extends ImmutableEntry>  void awaitCacheStaleValue(ImmutableCache<K,T> cache, boolean requiredValue) throws  InterruptedException{
         for(int i=0; i<AWAIT_LOOP_COUNT; i++) {
             if( cache.isStale() == requiredValue) {
                 break;

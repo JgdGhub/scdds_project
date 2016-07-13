@@ -16,6 +16,9 @@ package uk.co.octatec.scdds.cache.publish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -57,5 +60,21 @@ public class PropertyUtils {
             }
         }
         return sb.toString();
+    }
+
+    public static List<InetSocketAddress> registryListFromString(String registries) throws Exception {
+        ArrayList<InetSocketAddress>  registryList = new ArrayList<InetSocketAddress>();
+        String entryDelim = "[,]";
+        if( registries.contains(";") && !registries.contains(",")) {
+            entryDelim = "[;]";
+        }
+        String[] rlist = registries.split(entryDelim);
+        for(String rentry : rlist ) {
+            String[] hostAndPort = rentry.split("[:]");
+            log.info("adding registry entry [{}]",rentry);
+            InetSocketAddress addr = new InetSocketAddress(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
+            registryList.add(addr);
+        }
+        return registryList;
     }
 }

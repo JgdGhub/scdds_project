@@ -139,7 +139,7 @@ public class SubscriptionCacheBuilder<K, T extends ImmutableEntry> {
         return cacheImpl;
     }
 
-    public static  <K, T> boolean unSubscribe(ImmutableCache<K, T> cache) {
+    public static  <K, T extends ImmutableEntry> boolean unSubscribe(ImmutableCache<K, T> cache) {
         // this will probably not be a used very much, it is included mostly for completeness rather than in the
         // expectation that caches will be subscribed and then unsubscribe, the expection is that a cache will remain subscribed
         // until the application exits, an explicit un-subscribeis not required at application exit
@@ -179,7 +179,7 @@ public class SubscriptionCacheBuilder<K, T extends ImmutableEntry> {
         return subscriptions.size();
     }
 
-    static  <K,T> ListenerEventQueueFactory<K, ListenerEvent<K,T>>  defaultListenerEventQueueFactory(ListenerEventQueueFactory<K, ListenerEvent<K,T>>  theFactory) {
+    static  <K,T extends ImmutableEntry> ListenerEventQueueFactory<K, ListenerEvent<K,T>>  defaultListenerEventQueueFactory(ListenerEventQueueFactory<K, ListenerEvent<K,T>>  theFactory) {
         if( theFactory != null ) {
             return theFactory;
         }

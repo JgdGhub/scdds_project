@@ -13,6 +13,7 @@ package uk.co.octatec.scdds.cache.publish;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.ListenerEvent;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.Map;
 /**
  * Created by Jeromy Drake on 04/05/16
  */
-public final class NoOpCachePublisher<K,T> implements CachePublisher<K,T> {
+public final class NoOpCachePublisher<K,T extends ImmutableEntry> implements CachePublisher<K,T> {
     @Override
     public int initializePort() throws IOException {
         return 0;

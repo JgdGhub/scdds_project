@@ -15,6 +15,7 @@ package uk.co.octatec.scdds.mock;
 */
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.cache.ImmutableEntry;
 import uk.co.octatec.scdds.cache.ListenerEvent;
 import uk.co.octatec.scdds.cache.publish.*;
 import uk.co.octatec.scdds.net.socket.*;
@@ -30,7 +31,7 @@ import java.util.Map;
 /**
  * Created by Jeromy Drake on 07/05/16
  */
-public class MockCachePublisher<K,T> implements CachePublisher<K,T> {
+public class MockCachePublisher<K,T extends ImmutableEntry> implements CachePublisher<K,T> {
 
     private final Logger log = LoggerFactory.getLogger(CachePublisher.class);
 
