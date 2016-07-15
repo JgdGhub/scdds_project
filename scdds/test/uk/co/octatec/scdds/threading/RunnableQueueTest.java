@@ -64,12 +64,21 @@ public class RunnableQueueTest {
     }
 
     @Test
-    public void threaderTest() throws InterruptedException{
-
+    public void threaderTest() throws InterruptedException {
         int defaultNumberOfThreads = GlobalDefaults.numberOfNetworkSendThreads;
         GlobalDefaults.numberOfNetworkSendThreads = 3;
-        Threader t = new ThreaderFactoryImpl().getInstance();
+        doThreaderTest( new ThreaderFactoryImpl(), 3);
         GlobalDefaults.numberOfNetworkSendThreads = defaultNumberOfThreads;
+    }
+
+    @Test
+    public void threaderMultiTest() throws InterruptedException {
+        doThreaderTest( new ThreaderFactoryMultipleImpl(5), 5);
+    }
+
+    private void doThreaderTest(ThreaderFactory threaderFactory, int expectedNumThreads) throws InterruptedException{
+
+        Threader t = threaderFactory.getInstance();
 
         t.start();
 
@@ -83,6 +92,10 @@ public class RunnableQueueTest {
         r3.awaitRunning();
         r2.awaitRunning();
         r1.awaitRunning();
+
+        log.info("numberOfTHreads {} expected {} ", t.getNumberOfThreads(), expectedNumThreads);
+
+        Assert.assertEquals("number of threads", t.getNumberOfThreads(), expectedNumThreads);
 
         Assert.assertTrue("r1 has run", r1.count == 1);
         Assert.assertTrue("r1 has run", r2.count == 1);
