@@ -65,14 +65,21 @@ public class RunnableQueueTest {
 
     @Test
     public void threaderTest() throws InterruptedException {
-        int defaultNumberOfThreads = GlobalDefaults.numberOfNetworkSendThreads;
-        GlobalDefaults.numberOfNetworkSendThreads = 3;
-        doThreaderTest( new ThreaderFactoryImpl(), 3);
-        GlobalDefaults.numberOfNetworkSendThreads = defaultNumberOfThreads;
+        log.info("## threaderTest");
+        if( ThreaderFactoryImpl.instanceHasBeenCreated() )    {
+            // we can't change the number of threads once the instance has been created
+            doThreaderTest(new ThreaderFactoryImpl(), GlobalDefaults.numberOfNetworkSendThreads);
+        }
+        else {
+            // we can change the number of threads...
+            GlobalDefaults.numberOfNetworkSendThreads = 3;
+            doThreaderTest(new ThreaderFactoryImpl(), GlobalDefaults.numberOfNetworkSendThreads);
+        }
     }
 
     @Test
     public void threaderMultiTest() throws InterruptedException {
+        log.info("## threaderMultiTest");
         doThreaderTest( new ThreaderFactoryMultipleImpl(5), 5);
     }
 

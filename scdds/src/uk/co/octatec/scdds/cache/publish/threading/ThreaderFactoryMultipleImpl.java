@@ -7,8 +7,8 @@ import uk.co.octatec.scdds.GlobalDefaults;
 /**
  * Created by Jeromy Drake on 15/07/2016.
  *
- * This can be used as an alternative Threader factory so that individual publishers can have their own thread pool, the
- * default is for one single thread-pool to be shared across all publishers
+ * This can be used as an alternative Threader factory so that individual publishers can have their own thread pool,
+ * the default is for one single thread-pool to be shared across all publishers
  */
 public class ThreaderFactoryMultipleImpl implements ThreaderFactory  {
 

@@ -23,7 +23,8 @@ import uk.co.octatec.scdds.GlobalDefaults;
  *
  * This is the default Threader factory, which creates on Threader (thread-pool) for the entire application.
  * Different publishers within the same app could be given different thread-pools using the alternative
- * ThreaderFactoryMultipleImpl
+ * ThreaderFactoryMultipleImpl, but the default behaviour is one thread pool for nrtwork sending across the entire
+ * application. (Note a partciualt client gets associated with the same thread in order to maintain message ordering)
  */
 public class ThreaderFactoryImpl implements ThreaderFactory {
 
@@ -60,5 +61,9 @@ public class ThreaderFactoryImpl implements ThreaderFactory {
             }
         }
         return instance;
+    }
+
+    public static boolean instanceHasBeenCreated() {
+        return instance != null;
     }
 }
