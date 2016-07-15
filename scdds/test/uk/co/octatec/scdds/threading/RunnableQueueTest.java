@@ -17,6 +17,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.GlobalDefaults;
 import uk.co.octatec.scdds.cache.publish.threading.*;
 import uk.co.octatec.scdds.utilities.AwaitParams;
 
@@ -65,8 +66,11 @@ public class RunnableQueueTest {
     @Test
     public void threaderTest() throws InterruptedException{
 
-        int numberOfThreads = 3;
-        Threader t = new ThreaderFactoryImpl(numberOfThreads).getInstance();
+        int defaultNumberOfThreads = GlobalDefaults.numberOfNetworkSendThreads;
+        GlobalDefaults.numberOfNetworkSendThreads = 3;
+        Threader t = new ThreaderFactoryImpl().getInstance();
+        GlobalDefaults.numberOfNetworkSendThreads = defaultNumberOfThreads;
+
         t.start();
 
         MyRunnable r1 = new MyRunnable(1);

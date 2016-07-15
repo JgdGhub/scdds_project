@@ -13,26 +13,29 @@ package uk.co.octatec.scdds.cache.publish.threading;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.octatec.scdds.GlobalDefaults;
+
 /**
  * Created by Jeromy Drake on 17/05/2016.
+ *
+ * This is the default Threader factory, which creates on Threader (thread-pool) for the entire application.
+ * Different publishers within the same app could be given different thread-pools using the alternative
+ * ThreaderFactoryMultipleImpl
  */
 public class ThreaderFactoryImpl implements ThreaderFactory {
 
-    private final static int DEFAULT_NUMBER_OF_THREADS = 6;
+    private final static Logger log = LoggerFactory.getLogger(ThreaderFactoryImpl.class);
 
-    private static int numberOfThreads = DEFAULT_NUMBER_OF_THREADS;
     private static RunnableQueueFactory runnableQueueFactory = new RunnableQueueFactoryDefaultImpl();
-
 
     public ThreaderFactoryImpl() {
     }
 
-    public ThreaderFactoryImpl(int numThreads) {
-        numberOfThreads = numThreads;
-    }
 
-    public ThreaderFactoryImpl(RunnableQueueFactory queueFactory, int numThreads) {
-        numberOfThreads = numThreads;
+    public ThreaderFactoryImpl(RunnableQueueFactory queueFactory) {
         runnableQueueFactory =  queueFactory;
     }
 
@@ -40,11 +43,21 @@ public class ThreaderFactoryImpl implements ThreaderFactory {
 
     @Override
     public synchronized Threader getInstance() { // ok to synchronize this is only ever called one time per cache-creation
-        if( numberOfThreads == 0 ) {
+        if( GlobalDefaults.numberOfNetworkSendThreads == 0 ) {
+            log.info("ThreaderFactoryImpl.getInstance - returning null Threader - single threaded none queuing [see GlobalDefaults.numberOfNetworkSendThreads]");
             return null;
         }
         if( instance == null ) {
-            instance = new ThreaderImpl(runnableQueueFactory, numberOfThreads);
+            log.info("ThreaderFactoryImpl.getInstance - creating new instance, thread-count = {} [see GlobalDefaults.numberOfNetworkSendThreads]",  GlobalDefaults.numberOfNetworkSendThreads);
+            instance = new ThreaderImpl(runnableQueueFactory, GlobalDefaults.numberOfNetworkSendThreads);
+        }
+        else {
+            log.info("ThreaderFactoryImpl.getInstance - using existing instance, thread-count = [{}]", instance.getNumberOfThreads());
+            if( instance.getNumberOfThreads() != GlobalDefaults.numberOfNetworkSendThreads ) {
+                log.warn("THE NUMBER OF THREADS DOES NOT MATCH GlobalDefaults.numberOfNetworkSendThreads THIS INDICATES IT WAS CHANGED AFTER THE THREADER WAS CREATED");
+                log.warn("...the above message is not a problem, but it indicates you tried to change the number of threads too late in the startup");
+
+            }
         }
         return instance;
     }

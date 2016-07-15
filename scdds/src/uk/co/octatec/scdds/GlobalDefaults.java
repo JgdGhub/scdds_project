@@ -41,7 +41,7 @@ public class GlobalDefaults {
                                         // subscribers
 
 
-    public static final  ThreaderFactory threaderFactory = new ThreaderFactoryImpl(numberOfNetworkSendThreads);
+    public static final  ThreaderFactory threaderFactory = new ThreaderFactoryImpl();
 
     ///////////////////////////////////////////////////////
     // retry wait period when accessing the cache-registry
