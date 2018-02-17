@@ -1,13 +1,10 @@
 package uk.co.octatec.scdds.integration;
 /*
   SC/DDS - simple cached data distribution service
-
   Copyright 2016 by Jeromy Drake
-
   This program is free software; you may redistribute and/or modify it under
   the terms of the GNU General Public License Version 2 as published by the
   Free Software Foundation.
-
   This program is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
@@ -234,13 +231,13 @@ public class IntegrationTest {
 
             log.info("*** START THE REGISTRY registryPort={} ***", registryPort);
             registry = RegistryServer.startInThread(registryPort);
-                    // the clients and servers can be freely moved around to any network location,
-                    // the only requirement is that the registry(s) be in a known location on a known port
+            // the clients and servers can be freely moved around to any network location,
+            // the only requirement is that the registry(s) be in a known location on a known port
 
         }
         else {
             GlobalDefaults.CACHE_REGISTRY_RETRY_WAIT = 50; // this will not normally be changed, but it is useful to
-                                                        // reduce the period for this test
+            // reduce the period for this test
         }
 
         // create the server cache
@@ -593,8 +590,8 @@ public class IntegrationTest {
         if( pureInitialLoad ) {
             log.info("let event queue drain...");
             Thread.sleep(250); // give the event queue time to drain so we get an iniyal update and no
-                                // delayed 'update' events -- its not a problem if we do get them
-                                // and another option of the tests allows that to happen
+            // delayed 'update' events -- its not a problem if we do get them
+            // and another option of the tests allows that to happen
         }
 
         // we now have a cache with enough items for 2.5 initial-update batches
@@ -863,7 +860,7 @@ public class IntegrationTest {
         //(if yiu want to use caches in the same process, just use CacheImpl.createLocalCache()
 
         InstrumentedCacheSubscriberFactory<String, SimpleData> cacheSubscriberFactor = new InstrumentedCacheSubscriberFactory<>();
-                // use the instrumented factory so we can check heartbeats are received
+        // use the instrumented factory so we can check heartbeats are received
 
         SubscriptionCacheBuilder<String, SimpleData> client = new SubscriptionCacheBuilder<String, SimpleData>(registries, null, cacheSubscriberFactor, null);
         ImmutableCache<String, SimpleData> clientCache = client.subscribe(cacheName, null/*no-filter*/, heartbeatInterval/*heartbeat every second*/);
@@ -883,10 +880,10 @@ public class IntegrationTest {
             // wait for the heartbeat to be missed and re-connection to occur
 
             Thread.sleep(heartbeatInterval*1000); // enough time for a 2nd heartbeat to be requested...
-                    // the 2nd heartbeat request will also be missed, which will trigger a network re-connect
+            // the 2nd heartbeat request will also be missed, which will trigger a network re-connect
 
             CacheSubscriberImpl<String, SimpleData> cacheSubscriberImpl = cacheSubscriberFactor.getCacheSubscriberImpl();
-            for(int i=0; i<50; i++) {
+            for(int i=0; i<200; i++) {
                 if( cacheSubscriberImpl.getCconnectionCount() >= 2 ) {
                     break;
                 }
@@ -900,8 +897,8 @@ public class IntegrationTest {
         }
 
         Thread.sleep(heartbeatInterval*1000); // enough time for a heartbeat to be requested...
-            // if this is the Heartbeat-Not-Received-Test then we have re-connected to the server and
-            // heart beats will flow again...
+        // if this is the Heartbeat-Not-Received-Test then we have re-connected to the server and
+        // heart beats will flow again...
 
         InstrumentedBlockIO iBio = cacheSubscriberFactor.getInstrumentedConnector().getInstrumentedSession().getInstrumentedBlockIO();
 
@@ -1069,8 +1066,8 @@ public class IntegrationTest {
         RegistryServer registry = null;
         log.info("*** START THE REGISTRY registryPort={} ***", registryPort);
         registry = RegistryServer.startInThread(registryPort);
-            // the clients and servers can be freely moved around to any network location,
-            // the only requirement is that the registry(s) be in a known location on a known port
+        // the clients and servers can be freely moved around to any network location,
+        // the only requirement is that the registry(s) be in a known location on a known port
 
 
         // create the server cache
@@ -1292,7 +1289,7 @@ public class IntegrationTest {
 
         AwaitParams.awaitCacheSizeGte(cli1.clientCache, 2);
         AwaitParams.awaitCacheSizeGte(cli2.clientCache, 2);
-                // the startup for the server automatically adds an item 'S1' and we have just added 'S2'
+        // the startup for the server automatically adds an item 'S1' and we have just added 'S2'
 
         log.info("client-1 cache ["+cli1.clientCache.getName()+"] keys {} ", cli1.clientCache.keySet());
         Assert.assertEquals("client-1  cache has item", cli1.clientCache.size(), 2);
