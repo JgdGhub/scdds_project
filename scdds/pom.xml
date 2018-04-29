@@ -50,9 +50,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20.1</version>
                 <configuration>
-                    <!-- noticed that some tests fail when run from maveb, but work from  the IDE -->
-                    <!-- probably a timing issue, will look at it latter -->
-                    <skipTests>true</skipTests>
+                    <!-- skipTests>true</skipTests -->
                 </configuration>
             </plugin>
         </plugins>

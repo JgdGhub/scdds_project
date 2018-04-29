@@ -40,7 +40,9 @@ public class DefaultSerializer<K, T> implements Serializer<K,T> {
         byte[] bkey = doSerialize(key);
         byte[] nkey = new byte[4];
         SerializerUtils.writeIntToBytes(bkey.length, nkey);
-        log.debug("serialize key-len=[{}]", bkey.length);
+        if( _DBG ) {
+            log.debug("serialize key-len=[{}]", bkey.length);
+        }
         byte[] bvalue = doSerialize(value);
         byte[] nvalue = new byte[4];
         SerializerUtils.writeIntToBytes(bvalue.length, nvalue);
@@ -52,22 +54,27 @@ public class DefaultSerializer<K, T> implements Serializer<K,T> {
         b[firstPos]=version;
 
         System.arraycopy(nkey, 0,  b, firstPos+1,  nkey.length);
-        log.debug("serialize arraycopy nkey=[{}] at pos=[1]", nkey) ;
+        if( _DBG ) {
+            log.debug("serialize arraycopy nkey=[{}] at pos=[1]", nkey) ;
+        }
         int pos = firstPos+1+nkey.length;
         System.arraycopy(bkey,  0, b, pos, bkey.length);
         pos += bkey.length;
 
         System.arraycopy(nvalue, 0, b, pos, nvalue.length);
-        log.debug("serialize arraycopy nvalue=[{}] at pos=[{}]", nvalue,pos);
+        if( _DBG ) {
+            log.debug("serialize arraycopy nvalue=[{}] at pos=[{}]", nvalue,pos);
+        }
         pos += nvalue.length;
         System.arraycopy(bvalue, 0, b, pos, bvalue.length);
 
-        log.debug("serialize bkey [{}]", bkey);
-        log.debug("serialize nkey [{}]", nkey);
-        log.debug("serialize bvalue [{}]", bvalue);
-        log.debug("serialize nvalue [{}]", nvalue);
-
-        log.debug("serialize b [{}]", b);
+        if( _DBG ) {
+            log.debug("serialize bkey [{}]", bkey);
+            log.debug("serialize nkey [{}]", nkey);
+            log.debug("serialize bvalue [{}]", bvalue);
+            log.debug("serialize nvalue [{}]", nvalue);
+            log.debug("serialize b [{}]", b);
+        }
 
         return b;
     }

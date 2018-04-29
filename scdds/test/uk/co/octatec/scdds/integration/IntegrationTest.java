@@ -10,6 +10,18 @@ package uk.co.octatec.scdds.integration;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
+
+/* =======================================================
+
+these integration tests are very sensitive to timings
+(so possibly not very good unit tests, but they are quite useful)
+
+This means they could fail in some (slower) environments
+in particular, if debug logging is on, this will slow down
+the test and mean the expected events don't happen in time
+
+======================================================= */
+
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,6 +57,11 @@ import java.util.Properties;
  * Created by Jeromy Drake on 07/05/16
  */
 public class IntegrationTest {
+
+    final static boolean RUN_INTEGRATION_TESTS = true;
+        // in slower environm,ents these tests may fail as they are vety timing dependant, so
+        // it may be usefull just to switch them off
+
     private final Logger log = LoggerFactory.getLogger(IntegrationTest.class);
 
     enum StartupOrder {
@@ -58,6 +75,7 @@ public class IntegrationTest {
     public static void setup() {
 
         //System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         GlobalProperties.exposeHttpServer = false;
     }
 
@@ -200,6 +218,10 @@ public class IntegrationTest {
     public void basicTest_Startup_registry_server_client() throws InterruptedException {
         // test the the normal startup sequence
         log.info("## basicTest_Startup_registry_server_client");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doBasicTest(StartupOrder.registry_server_client);
     }
 
@@ -207,6 +229,10 @@ public class IntegrationTest {
     public void basicTest_Startup_server_client_registry() throws InterruptedException {
         // test that there is no dependency on startup order by starting the registry last
         log.info("## basicTest_Startup_server_client_registry");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doBasicTest(StartupOrder.server_client_registry);
     }
 
@@ -426,6 +452,10 @@ public class IntegrationTest {
         GlobalDefaults.CACHE_REGISTRY_RETRY_WAIT = 50; // so we don't wait too long for a retry
 
         log.info("##restartServerTest");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
 
         int registryPort = getFreePort();
         List<InetSocketAddress> registries = new ArrayList<>();
@@ -552,12 +582,20 @@ public class IntegrationTest {
     @Test
     public void largeInitialLoadWithPureInitialUpdate() throws InterruptedException {
         log.info("##largeInitialLoadWithPureInitialUpdate");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doLargeInitialLoad(true);
     }
 
     @Test
     public void largeInitialLoadWithInterleavedUpdates() throws InterruptedException {
         log.info("##largeInitialLoadWithInterleavedUpdates");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doLargeInitialLoad(false);
     }
 
@@ -589,7 +627,7 @@ public class IntegrationTest {
 
         if( pureInitialLoad ) {
             log.info("let event queue drain...");
-            Thread.sleep(250); // give the event queue time to drain so we get an iniyal update and no
+            Thread.sleep(250); // give the event queue time to drain so we get an initial update and no
             // delayed 'update' events -- its not a problem if we do get them
             // and another option of the tests allows that to happen
         }
@@ -648,12 +686,20 @@ public class IntegrationTest {
     @Test
     public void largeUpdateTestNoFiltered2dSub() throws InterruptedException {
         log.info("##largeUpdateTestNoFiltered2dSub");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doLargeUpdateTest(false);
     }
 
     @Test
     public void largeUpdateTestWithFiltered2dSub() throws InterruptedException {
         log.info("##largeUpdateTestWithFiltered2dSub");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doLargeUpdateTest(true);
     }
 
@@ -815,12 +861,20 @@ public class IntegrationTest {
     @Test
     public void heartbeatNeededButNotReceivedTest() throws InterruptedException {
         log.info("##heartbeatNeededButNotReceivedTest");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doHeartbeaatTest(false);
     }
 
     @Test
     public void heartbeatNeededAndReceivedTest() throws InterruptedException {
         log.info("##heartbeatNeededAndReceivedTest");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
         doHeartbeaatTest(true);
     }
 
@@ -927,6 +981,10 @@ public class IntegrationTest {
         // will ALWAYS be empty in stream-mode)
 
         log.info("##streamModeTest");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
 
         String cacheName = "IntegrationCacheS";
 
@@ -1055,7 +1113,11 @@ public class IntegrationTest {
         // start a Registry, and Server and a Client and then put entries into the server-cache
         // and watch them arrive in the client-cache and monitor the client-side listener events
 
-        log.info("multipleClientTest");
+        log.info("##multipleClientTest");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
 
         int registryPort = getFreePort();
         List<InetSocketAddress> registries = new ArrayList<>();
@@ -1240,6 +1302,10 @@ public class IntegrationTest {
         // multiple caches to multiple subscribers
 
         log.info("## routerTest");
+        if( !  RUN_INTEGRATION_TESTS ) {
+            log.info("integration tests not running");
+            return;
+        }
 
         int registryPort = getFreePort();
         List<InetSocketAddress> registries = new ArrayList<>();
