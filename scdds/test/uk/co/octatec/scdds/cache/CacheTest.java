@@ -61,7 +61,7 @@ public class CacheTest {
         myCache.put("B", new SimpleData("B", 2));
         myCache.put("C", new SimpleData("C", 3));
 
-        Thread.sleep(10);
+        Thread.sleep(30);
             // let the above events get to the end of the queue before we add a listener
 
         SimpleCacheListener<String, SimpleData> cacheListener = new SimpleCacheListener<>();
