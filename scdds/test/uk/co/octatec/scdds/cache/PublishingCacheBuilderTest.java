@@ -72,7 +72,7 @@ public class PublishingCacheBuilderTest {
         Assert.assertTrue("cache was created", cache != null);
 
         cache.put("A", new SimpleData("A", 1));
-        Thread.sleep(30); // make sure the event is processes before the listener is added
+        Thread.sleep(50); // make sure the event is processes before the listener is added
         SimpleCacheListener<String, SimpleData> cacheListener = new SimpleCacheListener<String, SimpleData>();
         log.info("before adding: cacheListener.onInitialUpdateCount = [{}] cacheListener.onUpdateCount = [{}]", cacheListener.onInitialUpdateCount, cacheListener.onUpdateCount);
 
