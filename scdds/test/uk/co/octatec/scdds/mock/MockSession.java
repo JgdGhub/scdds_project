@@ -26,6 +26,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Jeromy Drake on 04/05/16
@@ -34,8 +35,8 @@ public class MockSession implements Session {
 
     private final static Logger log = LoggerFactory.getLogger(MockSession.class);
 
-    static final int AWAIT_SLEEP_TIME = 20;
-    static final int AWAIT_LOOP_COUNT = 20;
+    private static final int AWAIT_SLEEP_TIME = 25;
+    private static final int AWAIT_LOOP_COUNT = 250;
 
     volatile public byte[] lastBytetWrite;
     volatile public byte[] prevLastBytetWrite;
@@ -281,6 +282,7 @@ public class MockSession implements Session {
     }
 
     public void awaitLastStringWrite() throws InterruptedException{
+        log.info("!! awaitLastStringWrite !! "+(new Date()));
         for (int i = 0; i < AWAIT_LOOP_COUNT; i++)    {
             // wait for the cache publisher to write a reply
             if ( lastStringWrite != null) {
@@ -288,11 +290,13 @@ public class MockSession implements Session {
             }
             Thread.sleep(AWAIT_SLEEP_TIME);
         }
+        log.info("!! awaitLastStringWrite DONE !! "+(new Date()));
         if( lastStringWrite == null  ) {
             log.warn("*** awaitLastStringWrite: wait failed");
         }
     }
     public void awaitLastByteWrite() throws InterruptedException{
+        log.info("!! awaitLastByteWrite !! "+(new Date()));
         for (int i = 0; i < AWAIT_LOOP_COUNT; i++)    {
             // wait for the cache publisher to write a reply
             if ( lastBytetWrite != null) {
@@ -300,6 +304,7 @@ public class MockSession implements Session {
             }
             Thread.sleep(AWAIT_SLEEP_TIME);
         }
+        log.info("!! awaitLastByteWrite DONE !! "+(new Date()));
         if( lastBytetWrite == null  ) {
             log.warn("*** awaitLastByteWrite: wait failed");
         }

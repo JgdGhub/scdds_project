@@ -33,7 +33,7 @@ public class CacheTest {
 
     @BeforeClass
     public static void setup() {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
     }
 
 
@@ -61,7 +61,7 @@ public class CacheTest {
         myCache.put("B", new SimpleData("B", 2));
         myCache.put("C", new SimpleData("C", 3));
 
-        Thread.sleep(30);
+        Thread.sleep(250);
             // let the above events get to the end of the queue before we add a listener
 
         SimpleCacheListener<String, SimpleData> cacheListener = new SimpleCacheListener<>();
@@ -98,7 +98,7 @@ public class CacheTest {
         myCache.put("B", new SimpleData("B", 2));
         myCache.put("C", new SimpleData("C", 3));
 
-        Thread.sleep(10);
+        Thread.sleep(250);
         // let the above events get to the end of the queue before we add a listener
 
         SimpleCacheListener<String, SimpleData> cacheListener = new SimpleCacheListener<>();
@@ -226,7 +226,7 @@ public class CacheTest {
 
         SimpleCacheListener<String, SimpleData> cacheListener = new SimpleCacheListener<>();
         myCache.addListener(cacheListener);
-
+        Thread.sleep(250);
         cacheListener.awaitOnInitialUpdateCount(1);
 
         log.info("counters stale={} active={} initial-update={} update={}",
@@ -367,6 +367,7 @@ public class CacheTest {
         myCache.put("A", new SimpleData("A", 1));
         myCache.put("B", new SimpleData("B", 2));
         myCache.put("C", new SimpleData("C", 3));
+        Thread.sleep(250);
         SimpleCacheListener<String, SimpleData> cacheListener = new SimpleCacheListener<>();
         myCache.addListener(cacheListener);
 
@@ -374,7 +375,7 @@ public class CacheTest {
 
 
         Assert.assertTrue("initial update called", cacheListener.onInitialUpdateCount==1);
-        Assert.assertTrue("initial update map correct", cacheListener.initialUpdate.size()==3);
+        Assert.assertTrue("initial update map correct 1", cacheListener.initialUpdate.size()==3);
 
         myCache.put("C", new SimpleData("C", 30));
         myCache.put("A", new SimpleData("A", 10));
@@ -389,7 +390,7 @@ public class CacheTest {
 
         log.info("update count = {}", cacheListener.onUpdateCount);
         Assert.assertTrue("update count 4", cacheListener.onUpdateCount<=8 && cacheListener.onUpdateCount>=4);
-        Assert.assertTrue("initial update map correct", cacheListener.updateAccumulation.size()==4);
+        Assert.assertTrue("initial update map correct 2", cacheListener.updateAccumulation.size()==4);
 
         SimpleData dA = cacheListener.updateAccumulation.get("A");
         SimpleData dB = cacheListener.updateAccumulation.get("B");

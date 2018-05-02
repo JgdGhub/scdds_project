@@ -21,8 +21,8 @@ import uk.co.octatec.scdds.cache.subscribe.ImmutableCache;
  * Created by Jeromy Drake on 10/05/2016.
  */
 public class AwaitParams {
-    public static final int AWAIT_SLEEP_TIME = 20;
-    public static final int AWAIT_LOOP_COUNT = 100;
+    public static final int AWAIT_SLEEP_TIME = 30;
+    public static final int AWAIT_LOOP_COUNT = 350;
 
     public static<K,T extends ImmutableEntry>  void awaitCacheSizeGte(ImmutableCache<K,T> cache, int n) throws  InterruptedException{
         for(int i=0; i<AWAIT_LOOP_COUNT; i++) {

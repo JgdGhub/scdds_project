@@ -120,7 +120,7 @@ public class GeneralRequestHandlerTest {
 
     @BeforeClass
     public static void setup() {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
     }
 
     @Test

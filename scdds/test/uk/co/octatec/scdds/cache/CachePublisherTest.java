@@ -31,6 +31,7 @@ import uk.co.octatec.scdds.net.serialize.SerializerFactoryDefaultImpl;
 import uk.co.octatec.scdds.net.serialize.SerializerUtils;
 import uk.co.octatec.scdds.net.socket.BlockIoImpl;
 
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -45,7 +46,7 @@ public class CachePublisherTest {
 
     @BeforeClass
     public static void setup() {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
     }
 
 
@@ -54,16 +55,21 @@ public class CachePublisherTest {
         private static final Logger log = LoggerFactory.getLogger(MyCacheFilter.class);
 
         static MyCacheFilter theFilter;
-        volatile boolean filterUsed;
+        static volatile boolean filterUsed;
         volatile String filteredOut;
 
+        public MyCacheFilter() {
+            log.info("-- MyCacheFilter ctor --") ;
+        }
         @Override
         public void init(String data) {
             theFilter = this;
+            log.info("-- MyCacheFilter init --") ;
         }
 
         @Override
         public boolean accept(String key, SimpleData value) {
+            log.info("!! filter is used !!");
             filterUsed = true;
             if( key.equals("d1")) {
                 filteredOut = key;
@@ -74,16 +80,18 @@ public class CachePublisherTest {
         }
 
         static void awaitFilterBeingUsed() throws InterruptedException {
+            log.info("!! awaitFilterBeingUsed !! the-filter="+MyCacheFilter.theFilter+" "+(new Date()));
             for (int i = 0; i < AwaitParams.AWAIT_LOOP_COUNT; i++) {
                 if (MyCacheFilter.theFilter != null && MyCacheFilter.theFilter.filterUsed) {
                     break;
                 }
                 Thread.sleep(AwaitParams.AWAIT_LOOP_COUNT);
             }
+            log.info("!! awaitFilterBeingUsed DONE !! "+(new Date()));
             if( MyCacheFilter.theFilter == null ) {
                 log.warn("*** awaitFilterBeingUsed: wait failed, filter not created");
             }
-            else if( MyCacheFilter.theFilter.filterUsed ) {
+            else if( !MyCacheFilter.theFilter.filterUsed ) {
                 log.warn("*** awaitFilterBeingUsed: wait failed, filter creted but not used");
             }
         }
@@ -255,7 +263,7 @@ public class CachePublisherTest {
     @Test
     public void cachePublisherFilterRunningTestWithInitialLoad() throws InterruptedException {
         log.info("## cachePublisherFilterRunningTestWithInitialLoad");
-        doCachePublisherRunningTest(true/*apply filter*/, true/*initial data  loda will contain data*/);
+        doCachePublisherRunningTest(true/*apply filter*/, true/*initial data  load will contain data*/);
     }
 
     @Test
@@ -293,7 +301,9 @@ public class CachePublisherTest {
             // we don't want the publisher to see data being added like this - that would confuse the test
             // so we wait until all update-notifications have been sent, i.e. our listener has been notified
             // then we have a clean start from where to set the publisher
+            log.info("wait for all updates to be sent -- continue");
             localListener.awaitOnUpdateCount(2);
+            log.info("all updates sent -- continue, count="+localListener.onUpdateCount);
         }
 
         ((CacheImpl) cache).setCachePublisher(cachePublisher);
@@ -438,12 +448,12 @@ public class CachePublisherTest {
 
         // put an entry in the cache, it should be published of filtered-out
 
-        log.info("subTest_d1 = TESTING ADDMIN ITEM d1 subscriptionRemoved={}", subscriptionRemoved);
+        log.info("subTest_d1 = TESTING ADDING ITEM d1 subscriptionRemoved={}", subscriptionRemoved);
 
         SimpleData d1 = new SimpleData("d1", 1);
         cache.put("d1", d1);
 
-        if (usingFilter) {
+        if (usingFilter && !subscriptionRemoved) {
             MyCacheFilter.awaitFilterBeingUsed(); // wait for something to be filtered-out
         } else {
             // wait for something to be written

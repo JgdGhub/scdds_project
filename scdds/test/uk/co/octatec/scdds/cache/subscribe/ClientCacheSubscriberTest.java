@@ -128,7 +128,7 @@ public class ClientCacheSubscriberTest {
 
     @BeforeClass
     public static void setup() {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
         GlobalProperties.exposeHttpServer = false;
     }
 
@@ -252,6 +252,7 @@ public class ClientCacheSubscriberTest {
                 // we always get an onActive and onInitialUpdate in a newly added listener
                 // in this case there is no data in the cache yet
 
+        Thread.sleep(100);
         Serializer<String, SimpleData> serializer = serializerFactory.create();
 
         // set up a  'mock' read  of a data item [1]
@@ -480,6 +481,12 @@ public class ClientCacheSubscriberTest {
         subscriber.subscribe(15/*heartbet-seconds*/);
 
         listener.awaitOnDataStaleCount(1);
+        if( makeActive ) {
+            listener.awaitOnActiveCount(2);
+        }
+        else {
+            listener.awaitOnActiveCount(1);
+        }
 
 
         log.info("subsciption: sessionId=[{}] thread=[{}] subscriptionLoopEntered=[{}]",subscriber.getSessionId(), subscriber.getSubscriptionThread(), subscriber.subscriptionLoopEntered );
@@ -496,11 +503,11 @@ public class ClientCacheSubscriberTest {
 
         if( makeActive ) {
             Assert.assertEquals("onActiveCount ", 2, listener.onActiveCount);
-            Assert.assertEquals("onDataStaleCount", 1, listener.onDataStaleCount);
+            Assert.assertTrue("onDataStaleCount", listener.onDataStaleCount >= 1);
         }
         else {
             Assert.assertEquals("onActiveCount ", 1, listener.onActiveCount);
-            Assert.assertEquals("onDataStaleCount", 1, listener.onDataStaleCount);
+            Assert.assertTrue("onDataStaleCount", listener.onDataStaleCount >= 1);
 
         }
 

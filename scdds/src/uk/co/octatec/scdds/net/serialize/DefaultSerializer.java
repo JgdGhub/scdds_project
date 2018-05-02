@@ -46,7 +46,9 @@ public class DefaultSerializer<K, T> implements Serializer<K,T> {
         byte[] bvalue = doSerialize(value);
         byte[] nvalue = new byte[4];
         SerializerUtils.writeIntToBytes(bvalue.length, nvalue);
-        log.debug("serialize value-len=[{}]", bvalue.length);
+        if( _DBG ) {
+            log.debug("serialize value-len=[{}]", bvalue.length);
+        }
 
         byte[] b = new byte[reserveHeaderSpace+1+bkey.length+nkey.length+bvalue.length+nvalue.length];
 

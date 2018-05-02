@@ -19,7 +19,7 @@ package uk.co.octatec.scdds;
 public final class ConditionalCompilation {
 
     public static final boolean _DBG = false;
-            // If this is true, log.debug() calls are compiled in, otherwise they are excluded
+            // If this is true, log.debug() calls are compiled in, otherwise they are excluded -
             // if they are compiled-in, then the actually loging, is, of course, still controlled
             // by the usual SLF4J mechanisms
 

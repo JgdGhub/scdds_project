@@ -23,6 +23,7 @@ the test and mean the expected events don't happen in time
 ======================================================= */
 
 import junit.framework.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -71,13 +72,16 @@ public class IntegrationTest {
         client_server_registry,
 
     }
+
     @BeforeClass
     public static void setup() {
 
         //System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
+        System.setProperty(org.slf4j.impl.SimpleLogger.SHOW_DATE_TIME_KEY, "true");
         GlobalProperties.exposeHttpServer = false;
     }
+
 
     static class ServerSideCacheStarter implements  Runnable {
 
@@ -1023,7 +1027,7 @@ public class IntegrationTest {
         SimpleCacheListener<String, SimpleData> clientListener = new SimpleCacheListener<String, SimpleData>();
         SubscriptionStreamBuilder<String, SimpleData> client = new SubscriptionStreamBuilder<>(registries);
         int streamRef = client.subscribe(cacheName, clientListener);
-
+        Thread.sleep(100); // let events move onto the queue
         clientListener.awaitOnInitialUpdateCount(1);
 
         Assert.assertEquals("on initial update, the cache is empty", 0, clientListener.initialUpdate.size());

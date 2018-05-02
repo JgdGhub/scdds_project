@@ -51,14 +51,14 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
 
     @Override
     public void onInitialUpdate(ImmutableCache<K, T> initialUpdate) {
-        ++onInitialUpdateCount;
         onInitialUpdateMapSize = initialUpdate.size();
-        log.info("ON-INITIAL_UPDATE count=[{}] data-size=[{}]", onInitialUpdateCount, initialUpdate.size());
+        log.info("ON-INITIAL_UPDATE count=[{}] data-size=[{}]", onInitialUpdateCount+1, initialUpdate.size());
         this.initialUpdate = new HashMap<>();
         Set<Map.Entry<K,T>> set = initialUpdate.entrySet();
         for(Map.Entry<K,T> e : set ) {
             this.initialUpdate.put(e.getKey(), e.getValue());
         }
+        ++onInitialUpdateCount;
     }
 
     @Override
@@ -99,6 +99,7 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
     }
 
     public void awaitOnRemoveCount(int n) throws InterruptedException {
+        log.info("!! awaitOnRemoveCount "+n+" !!");
         for (int i = 0; i < AwaitParams.AWAIT_LOOP_COUNT; i++) {
             if (onRemoveCount == n) {
                 break;
@@ -106,11 +107,13 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
                 Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME);
             }
         }
+        log.info("!! awaitOnRemoveCount "+n+" DONE !!");
         if( onRemoveCount < n ) {
             log.warn("*** awaitOnRemoveCount: wait failed");
         }
     }
     public void awaitOnInitialUpdateCount(int n) throws InterruptedException {
+        log.info("!! awaitOnInitialUpdateCount "+n+" !!");
         for (int i = 0; i < AwaitParams.AWAIT_LOOP_COUNT; i++) {
             if (onInitialUpdateCount == n) {
                 break;
@@ -119,11 +122,13 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
             }
 
         }
+        log.info("!! awaitOnInitialUpdateCount "+n+" DONE !!");
         if( onInitialUpdateCount < n ) {
             log.warn("*** awaitOnInitialUpdateCount: wait failed");
         }
     }
     public void awaitOnUpdateCount(int n) throws InterruptedException {
+        log.info("!! awaitOnUpdateCount "+n+" !!");
         for (int i = 0; i < AwaitParams.AWAIT_LOOP_COUNT; i++) {
             if (onUpdateCount == n) {
                 break;
@@ -132,45 +137,54 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
             }
 
         }
+        log.info("!! awaitOnUpdateCount "+n+" DONE !!");
         if( onUpdateCount < n ) {
             log.warn("*** awaitOnUpdateCount: wait failed");
         }
     }
     public void awaitOnUpdateCountGte(int n) throws InterruptedException {
+        log.info("!! awaitOnUpdateCountGte "+n+" !!");
         for (int i = 0; i < AwaitParams.AWAIT_LOOP_COUNT; i++) {
             if (onUpdateCount >= n) {
                 break;
             } else {
                 Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME);
             }
-            if( onUpdateCount < n ) {
-                log.warn("*** awaitOnUpdateCountGte: wait failed");
-            }
+
+        }
+        log.info("!! awaitOnUpdateCountGte "+n+" DONE !!");
+        if( onUpdateCount < n ) {
+            log.warn("*** awaitOnUpdateCountGte: wait failed");
         }
     }
     public void awaitOnDataStaleCount(int n) throws InterruptedException {
+        log.info("!! awaitOnDataStaleCount "+n+" !!");
         for(int i=0; i<AwaitParams.AWAIT_LOOP_COUNT; i++) {
             Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME); // give the system chance to record the call
             if( onDataStaleCount==n ) {
                 break;
             }
         }
+        log.info("!! awaitOnDataStaleCount "+n+" DONE !!");
         if( onDataStaleCount < n ) {
             log.warn("*** awaitOnDataStaleCount: wait failed");
         }
     }
     public void awaitOnDataStaleCountGte(int n) throws InterruptedException {
+        log.info("!! awaitOnDataStaleCountGte "+n+" !!");
         for(int i=0; i<AwaitParams.AWAIT_LOOP_COUNT; i++) {
             Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME); // give the system chance to record the call
             if( onDataStaleCount>=n ) {
                 break;
             }
         }
+        log.info("!! awaitOnDataStaleCountGte "+n+" DONE !!");
         if( onDataStaleCount < n ) {
             log.warn("*** awaitOnDataStaleCount: wait failed");
         }
     }
     public void awaitOnActiveCount(int n) throws InterruptedException {
+        log.info("!! awaitOnActiveCount "+n+" !!");
         for(int i=0; i<AwaitParams.AWAIT_LOOP_COUNT; i++) {
             Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME); // give the system chance to record the call
             if( onActiveCount==n ) {
@@ -178,11 +192,13 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
             }
 
         }
+        log.info("!! awaitOnActiveCount "+n+" DONE !!");
         if( onActiveCount < n ) {
             log.warn("*** awaitOnActiveCount: wait failed");
         }
     }
     public void awaitOnFatalCount(int n) throws InterruptedException {
+        log.info("!! awaitOnFatalCount "+n+" !!");
         for (int i = 0; i < AwaitParams.AWAIT_LOOP_COUNT; i++) {
             if (onFatalCount == n) {
                 break;
@@ -190,6 +206,7 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
                 Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME);
             }
         }
+        log.info("!! awaitOnFatalCount "+n+" DONE !!");
         if( onFatalCount < n ) {
             log.warn("*** awaitOnFatalCount: wait failed");
         }
