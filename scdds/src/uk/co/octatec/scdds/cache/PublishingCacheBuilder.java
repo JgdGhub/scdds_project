@@ -13,10 +13,9 @@ package uk.co.octatec.scdds.cache;
   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
   for complete details.
 */
-import jdk.nashorn.internal.runtime.GlobalConstants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.octatec.scdds.ConditionalCompilation;
 import uk.co.octatec.scdds.GlobalDefaults;
 import uk.co.octatec.scdds.GlobalProperties;
 import uk.co.octatec.scdds.cache.info.CacheInfoDisplay;
@@ -28,7 +27,6 @@ import uk.co.octatec.scdds.cache.persistence.NoOpCacheLoaderPersisterFactory;
 import uk.co.octatec.scdds.cache.publish.*;
 import uk.co.octatec.scdds.cache.publish.threading.Threader;
 import uk.co.octatec.scdds.cache.publish.threading.ThreaderFactory;
-import uk.co.octatec.scdds.cache.publish.threading.ThreaderFactoryImpl;
 import uk.co.octatec.scdds.net.html.HttpServerFactory;
 import uk.co.octatec.scdds.net.registry.CacheRegistrar;
 import uk.co.octatec.scdds.net.registry.CacheRegistrarImpl;

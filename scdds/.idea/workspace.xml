@@ -8,25 +8,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5e86c234-bd35-4e6c-9466-76d6aa8bec3d" name="Default" comment="fix tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/uk/co/octatec/scdds/ConditionalCompilation.java" afterPath="$PROJECT_DIR$/src/uk/co/octatec/scdds/ConditionalCompilation.java" />
-      <change beforePath="$PROJECT_DIR$/src/uk/co/octatec/scdds/net/serialize/DefaultSerializer.java" afterPath="$PROJECT_DIR$/src/uk/co/octatec/scdds/net/serialize/DefaultSerializer.java" />
+      <change beforePath="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java" afterPath="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java" />
+      <change beforePath="$PROJECT_DIR$/src/uk/co/octatec/scdds/net/html/ScddsHttpHandler.java" afterPath="$PROJECT_DIR$/src/uk/co/octatec/scdds/net/html/ScddsHttpHandler.java" />
       <change beforePath="$PROJECT_DIR$/test/odb_test.dat" afterPath="$PROJECT_DIR$/test/odb_test.dat" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/CachePersisterLoaderTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/CachePersisterLoaderTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/CachePublisherTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/CachePublisherTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/CacheTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/CacheTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/publish/CachePublisherSubscriptionTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/publish/CachePublisherSubscriptionTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/publish/GeneralRequestHandlerTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/publish/GeneralRequestHandlerTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/subscribe/ClientCacheSubscriberTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/subscribe/ClientCacheSubscriberTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/integration/IntegrationTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/integration/IntegrationTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/mock/MockSession.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/mock/MockSession.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/DefaultSerializerTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/DefaultSerializerTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/registry/ResgistryTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/registry/ResgistryTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/socket/InitialUpdateReaderWriterTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/socket/InitialUpdateReaderWriterTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/socket/SocketTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/net/socket/SocketTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/odb/ObjectDataStoreTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/odb/ObjectDataStoreTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/queue/EventQueueTest.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/queue/EventQueueTest.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/utilities/AwaitParams.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/utilities/AwaitParams.java" />
-      <change beforePath="$PROJECT_DIR$/test/uk/co/octatec/scdds/utilities/SimpleCacheListener.java" afterPath="$PROJECT_DIR$/test/uk/co/octatec/scdds/utilities/SimpleCacheListener.java" />
     </list>
     <ignored path="scdds.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,112 +70,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="IntegrationTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/uk/co/octatec/scdds/integration/IntegrationTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="79" column="86" lean-forward="false" selection-start-line="79" selection-start-column="86" selection-end-line="79" selection-end-column="86" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SimpleLogger.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/slf4j-simple-1.7.21.jar!/org/slf4j/impl/SimpleLogger.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="47" column="31" lean-forward="false" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
-              <folding>
-                <marker date="1518806814685" expanded="false" signature="0:104" ph="/.../" />
-                <marker date="1518806814685" expanded="false" signature="138:677" ph="..." />
-                <marker date="1518806814685" expanded="true" signature="3043:3282" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="3362:3467" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="3550:3680" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="3705:5342" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="5411:6007" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="6050:6683" ph="{...}" />
-                <marker date="1518806814685" expanded="false" signature="6120:6196" ph="run() → {" />
-                <marker date="1518806814685" expanded="false" signature="6458:6473" ph="}" />
-                <marker date="1518806814685" expanded="true" signature="6715:6995" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="7040:7480" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="7536:7945" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="8008:9714" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="9763:9930" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="9970:10186" ph="{...}" />
-                <marker date="1518806814685" expanded="false" signature="10225:10236" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="10295:10301" ph=" }" />
-                <marker date="1518806814685" expanded="true" signature="10385:10587" ph="{...}" />
-                <marker date="1518806814685" expanded="true" signature="10666:10872" ph="{...}" />
-                <marker date="1518806814685" expanded="false" signature="10924:10935" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="10975:10981" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11018:11029" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11059:11065" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11100:11111" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11145:11151" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11204:11215" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11266:11272" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11340:11351" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11396:11402" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11460:11471" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11510:11516" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11564:11575" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11595:11601" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11638:11649" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11680:11686" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11721:11732" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11767:11773" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11826:11837" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="11889:11895" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="11963:11974" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12020:12026" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12084:12095" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12135:12141" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12189:12200" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12221:12227" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12263:12274" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12305:12311" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12345:12356" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12391:12397" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12446:12457" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12506:12512" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12575:12586" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12628:12634" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12691:12702" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12742:12748" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12795:12806" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12827:12833" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12869:12880" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12911:12917" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="12951:12962" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="12997:13003" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13052:13063" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13112:13118" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13181:13192" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13234:13240" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13297:13308" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13348:13354" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13401:13412" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13433:13439" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13476:13487" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13518:13524" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13559:13570" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13605:13611" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13661:13672" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13721:13727" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13791:13802" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13844:13850" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="13908:13919" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="13959:13965" ph=" }" />
-                <marker date="1518806814685" expanded="false" signature="14013:14024" ph=" { " />
-                <marker date="1518806814685" expanded="false" signature="14045:14051" ph=" }" />
-                <marker date="1518806814685" expanded="true" signature="14093:14406" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ClientCacheSubscriberTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/subscribe/ClientCacheSubscriberTest.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -225,11 +103,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConditionalCompilation.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ConditionalCompilation.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/ConditionalCompilation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="44" lean-forward="true" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+            <state relative-caret-position="90">
+              <caret line="6" column="56" lean-forward="false" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScddsHttpHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/net/html/ScddsHttpHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-37">
+              <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Map.java" pinned="false" current-in-tab="false">
+        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/util/Map.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="219">
+              <caret line="783" column="20" lean-forward="false" selection-start-line="783" selection-start-column="20" selection-end-line="783" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -245,31 +143,31 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="PublishingCacheBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="31" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CacheImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/CacheImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="148">
+              <caret line="35" column="3" lean-forward="true" selection-start-line="35" selection-start-column="3" selection-end-line="35" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="logger.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/resources/logger.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
               <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="log4j.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/resources/log4j.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="22" lean-forward="false" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="logging.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/resources/logging.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -306,6 +204,9 @@
       <find>streamMode</find>
       <find>filter</find>
       <find>org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY</find>
+      <find>n</find>
+      <find>bashorn</find>
+      <find>remove</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src</dir>
@@ -327,7 +228,6 @@
         <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/queue/RingQueue.java" />
         <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/SubscriptionStreamBuilder.java" />
         <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/SubscriptionCacheBuilder.java" />
-        <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java" />
         <option value="$PROJECT_DIR$/scripts/run_registry.cmd" />
         <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/subscribe/CacheSubscriberImpl.java" />
         <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/net/socket/InitialUpdateReader.java" />
@@ -355,6 +255,8 @@
         <option value="$PROJECT_DIR$/test/uk/co/octatec/scdds/cache/subscribe/ClientCacheSubscriberTest.java" />
         <option value="$PROJECT_DIR$/test/uk/co/octatec/scdds/odb/ObjectDataStoreTest.java" />
         <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/ConditionalCompilation.java" />
+        <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java" />
+        <option value="$PROJECT_DIR$/src/uk/co/octatec/scdds/net/html/ScddsHttpHandler.java" />
       </list>
     </option>
   </component>
@@ -367,8 +269,8 @@
   <component name="MavenRunner">
     <option name="skipTests" value="true" />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="56" />
     <option name="width" value="1680" />
     <option name="height" value="964" />
   </component>
@@ -401,6 +303,57 @@
               <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
               <item name="scdds" type="462c0819:PsiDirectoryNode" />
               <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="uk" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="uk" type="462c0819:PsiDirectoryNode" />
+              <item name="co" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="uk" type="462c0819:PsiDirectoryNode" />
+              <item name="co" type="462c0819:PsiDirectoryNode" />
+              <item name="octatec" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="uk" type="462c0819:PsiDirectoryNode" />
+              <item name="co" type="462c0819:PsiDirectoryNode" />
+              <item name="octatec" type="462c0819:PsiDirectoryNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="uk" type="462c0819:PsiDirectoryNode" />
+              <item name="co" type="462c0819:PsiDirectoryNode" />
+              <item name="octatec" type="462c0819:PsiDirectoryNode" />
+              <item name="scdds" type="462c0819:PsiDirectoryNode" />
+              <item name="cache" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="scdds" type="b2602c69:ProjectViewProjectNode" />
@@ -885,7 +838,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525104049867</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix tests">
+      <created>1525286833540</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1525286833540</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -910,14 +870,14 @@
     <history-entry file="All_in_scdds - 2018.05.02 at 19h 40m 59s.xml">
       <configuration name="All in scdds" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_scdds - 2018.05.03 at 12h 08m 41s.xml">
+      <configuration name="All in scdds" configurationId="JUnit" />
+    </history-entry>
     <history-entry file="ClientCacheSubscriberTest - 2018.05.01 at 23h 29m 16s.xml">
       <configuration name="ClientCacheSubscriberTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="ClientCacheSubscriberTest_cacheSubscriptionMainLoopActiveTest - 2018.05.01 at 23h 28m 52s.xml">
       <configuration name="ClientCacheSubscriberTest.cacheSubscriptionMainLoopActiveTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ClientCacheSubscriberTest_cacheSubscriptionMainLoopStaleTest - 2018.05.01 at 23h 28m 45s.xml">
-      <configuration name="ClientCacheSubscriberTest.cacheSubscriptionMainLoopStaleTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -930,7 +890,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="964" extended-state="0" />
+    <frame x="0" y="25" width="1680" height="964" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -939,16 +899,16 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31678486" sideWeight="0.502442" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06959707" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5874705" sideWeight="0.497558" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23687424" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5874705" sideWeight="0.497558" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2777778" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1643026" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22893773" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22405373" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286052" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24969475" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18864469" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3995272" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -991,27 +951,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/net/socket/InitialUpdateWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="27" column="43" lean-forward="false" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/CacheListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/CacheImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="185" column="52" lean-forward="false" selection-start-line="185" selection-start-column="19" selection-end-line="185" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/publish/GeneralRequestHandlerFactoryImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1144,14 +1083,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2160">
-          <caret line="172" column="0" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1405,7 +1336,7 @@
         <state relative-caret-position="167">
           <caret line="79" column="86" lean-forward="false" selection-start-line="79" selection-start-column="86" selection-end-line="79" selection-end-column="86" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1471,8 +1402,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/ConditionalCompilation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="44" lean-forward="true" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+        <state relative-caret-position="90">
+          <caret line="6" column="56" lean-forward="false" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="783" column="20" lean-forward="false" selection-start-line="783" selection-start-column="20" selection-end-line="783" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/net/html/ScddsHttpHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-37">
+          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/PublishingCacheBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="31" lean-forward="false" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/uk/co/octatec/scdds/cache/CacheImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="35" column="3" lean-forward="true" selection-start-line="35" selection-start-column="3" selection-end-line="35" selection-end-column="3" />
           <folding />
         </state>
       </provider>

@@ -19,6 +19,7 @@ import com.sun.net.httpserver.HttpHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.net.www.protocol.http.HttpURLConnection;
+//import java.net.HttpURLConnection;  // java 9 import
 import uk.co.octatec.scdds.cache.Cache;
 import uk.co.octatec.scdds.net.html.format.*;
 import uk.co.octatec.scdds.net.html.links.CacheDisplayLinkGenerator;
@@ -85,7 +86,7 @@ public class ScddsHttpHandler implements HttpHandler {
     }
 
     public synchronized void  removeCache(Cache cache) {
-        cacheList.remove(cache.getName(),cache);
+        cacheList.remove(cache.getName());
     }
 
     public Reply processRequest(String request)  {
