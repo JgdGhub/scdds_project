@@ -63,18 +63,20 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
 
     @Override
     public void onUpdate(K key, T value) {
-        ++onUpdateCount;
+
         if( allowOnUpdatelogging ) {
-            log.info("ON-UPDATE key=[{}], value=[{}] count=[{}]", key, value, onUpdateCount);
+            log.info("ON-UPDATE key=[{}], value=[{}] count=[{}]", key, value, onUpdateCount+1);
         }
         updateAccumulation.put(key, value);
+        ++onUpdateCount;
     }
 
     @Override
     public void onRemoved(K key, T value) {
-        ++onRemoveCount;
-        log.info("ON-REMOVE key=[{}], value=[{}] count=[{}]", key, value, onUpdateCount);
+
+        log.info("ON-REMOVE key=[{}], value=[{}] count=[{}]", key, value, onRemoveCount+1);
         removedAccumulation.put(key, value);
+        ++onRemoveCount;
     }
 
     @Override
@@ -94,8 +96,8 @@ public class SimpleCacheListener<K, T extends ImmutableEntry> implements CacheLi
     @Override
     public void onFatalError(String errorText) {
         log.info("ON-FATAL-ERROR");
-        ++onFatalCount;
         fatalErrorText = errorText;
+        ++onFatalCount;
     }
 
     public void awaitOnRemoveCount(int n) throws InterruptedException {
