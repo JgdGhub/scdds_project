@@ -73,7 +73,7 @@ public class MockSession implements Session {
                             netDisconnectFlag.wait(5000);
                         }
                         catch( Exception e) {
-
+                            log.info("----waiting for net-disconnecrt trigger INTERUPTED---");
                         }
                     }
                 }

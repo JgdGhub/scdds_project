@@ -47,9 +47,14 @@ public class EventQueueTest {
         Assert.assertTrue("event q is stopped", eventQueue.isStopped());
         Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME); // time for all events to be processesed
         log.info("event queue thread state = {}",eventQueue.getThread().getState());
+        if(  eventQueue.getThread().getState() != Thread.State.TERMINATED) {
+            Thread.sleep(500);
+            log.info("event queue thread state (after wait) = {} ", eventQueue.getThread().getState());
+        }
         Assert.assertTrue("thread is WAITING", eventQueue.getThread().getState()== Thread.State.TERMINATED);
 
     }
+
 
     @Test
     public void eventTest() throws Exception {
@@ -159,6 +164,10 @@ public class EventQueueTest {
         eventQueue.put(e8);
         Thread.sleep(AwaitParams.AWAIT_SLEEP_TIME); // time for all events to be processesed
         log.info("events-processed = {}", listener.events.size());
+        if( listener.events.size() != 8 ) {
+            Thread.sleep(500);
+            log.info("events-processed (after waiting) = {}", listener.events.size());
+        }
         Assert.assertTrue("q processed 8 elements", listener.events.size()==8);
 
         eventQueue.stop();
