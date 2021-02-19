@@ -12,3 +12,19 @@ You can also use the ant build file scdds/build.xml ("makejar" and "runtests" ta
 
 In fact, the IntelliJ project doesn't build the jar, the "makejar" ant target or the maven package target is the way to
 build the jar.
+
+
+Watch out for ScddsHttpHandler, it includes an 'obsolete' java-8 import - the code was originally targeted to java-8 for maximum compatibility,
+the java-9 import is commented out, so just select the java-9 import if needed
+
+    import sun.net.www.protocol.http.HttpURLConnection;
+    //import java.net.HttpURLConnection;  // the java 9 import
+
+
+
+Timing Issues In Tests
+======================
+
+It may be there are some timing issues in a few of the unit-tests. Many of the unit-tests try to verify behaviour when connections are failing, this involves creating threads to do bad things and waiting for the bad thing to take effect, it might be that on some machines differences in speed cause these kinds of tests to fail.
+
+So far I've tested on a couple of different spec machines and the tests have been ok, but I don't have access to very many machines.
